@@ -68,3 +68,7 @@ Smart models don't need to be taught how to fly. Do not write:
 - Ask before destructive or hard-to-reverse operations.
 - Don't hardcode values that belong in env vars or user input.
 - Don't invent CLI options — point to `--help` or the reference doc.
+
+---
+
+*Adapted verbatim from `SKILL-GUIDE.md` in the [testomatio/skills](https://github.com/testomatio/skills) repository — this file describes skill-writing rules, not Kiwi TCMS specifics, so no changes were needed.*

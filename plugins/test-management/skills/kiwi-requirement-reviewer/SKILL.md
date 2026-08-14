@@ -1,13 +1,12 @@
 ---
 name: kiwi-requirement-reviewer
 description: >
-  Reviews requirements (BRD, user story, use case, feature ticket, spec, or
-  prose) for readiness BEFORE implementation — ambiguity, gaps,
-  contradictions, testability. Use when the user asks to review a spec or
-  ticket for testability. Not for an already-open PR
-  (kiwi-pr-requirements-analyzer), not for a code diff
-  (kiwi-pr-diff-analyzer), not for brainstorming feature risks
-  (kiwi-qa-thinking).
+  Use when the user asks to review a spec or ticket for testability — reviews
+  requirements (BRD, user story, use case, feature ticket, spec, or prose)
+  for readiness BEFORE implementation: ambiguity, gaps, contradictions,
+  testability. Not for an already-open PR (kiwi-pr-requirements-analyzer),
+  not for a code diff (kiwi-pr-diff-analyzer), not for brainstorming feature
+  risks (kiwi-qa-thinking).
 ---
 
 # QA Requirement Reviewer
@@ -38,7 +37,7 @@ Also check: boundaries, states, roles, NFRs (load, security, a11y, locale, TZ), 
 ### 1. Gather
 
 Document, folder, or chat text.
-If no path is given, look in `.kiwi-cache/requirements/` ([project-layout.md](../kiwi-scan-automation-project/references/project-layout.md)).
+If no path is given, look in `docs/requirements/` ([project-layout.md](../kiwi-scan-automation-project/references/project-layout.md)).
 
 ### 2. Identify
 

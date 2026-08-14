@@ -25,9 +25,8 @@ has a note, then a team summary.
    then `status: "BLOCKED"`.
 3. Each failed execution:
    - `kiwi_rpc { method: "TestExecution.get_comments", params: [execution_id] }`
-     — error text from the reporter/pipe.
-   - `kiwi_rpc { method: "TestExecution.get_links", params: [{ execution_id }] }`
-     — existing bug?
+     — error text from the reporter/pipe. (No dedicated tool for this yet.)
+   - `kiwi_execution_get_links(execution_id)` — existing bug?
    - `kiwi_get_case(case_id)` — steps vs actual, to split product vs test.
    - Classify:
 
@@ -40,14 +39,16 @@ has a note, then a team summary.
 
 4. Write the decision.
    - `kiwi_update_execution(execution_id, status, comment: "<conclusion>")`.
-   - Ticket → `kiwi_rpc { method: "TestExecution.add_link", params: [{ execution_id, name: "JIRA-148", url }] }`.
+   - Ticket → `kiwi_execution_add_link(execution_id, name: "JIRA-148", url, is_defect: true)`
+     for product bugs (`is_defect: true` marks it as a defect link, not just a
+     reference); omit `is_defect` for CI/report links.
 5. Report. Totals (all / failed / reviewed); groups by class; top-3 risky
    areas; leftover work (rerun N, file bugs for M).
 
 ## Rules
 
 - **Do not change PASSED** executions without a stated reason.
-- Do not file duplicate bugs: `get_links` and `kiwi_case_history` first.
+- Do not file duplicate bugs: `kiwi_execution_get_links` and `kiwi_case_history` first.
 - Comment = class + 1–2 lines of evidence.
 - Unknown cause → **BLOCKED “needs manual review”**. Do not guess FAILED.
 - Bulk updates (same cause on 10+ executions) — confirm with the user first,

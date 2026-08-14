@@ -57,10 +57,7 @@ Allure `attachments[].source` is a file next to the result JSON. After the
 pipe writes the execution:
 
 ```
-kiwi_rpc {
-  method: "TestExecution.add_attachment",
-  params: [execution_id, filename, b64content]
-}
+kiwi_execution_add_attachment(execution_id, filename, b64content)
 ```
 
 `b64content` is the file bytes as base64. Use for screenshots, traces, logs.

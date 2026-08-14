@@ -17,9 +17,10 @@ Fixes and snippets: [DEBUGGING_QUICK_REFERENCE.md](./references/DEBUGGING_QUICK_
 
 - `kiwi_ping` → `ok`. Run or failing test is known.
 - `kiwi_run_status(run_id)` and `kiwi_list_executions(run, status: "FAILED")`.
-- Error text: `kiwi_rpc { method: "TestExecution.get_comments", params: [execution_id] }`.
+- Error text: `kiwi_rpc { method: "TestExecution.get_comments", params: [execution_id] }`
+  (no dedicated tool for this yet).
 - Expected behavior: `kiwi_get_case(case_id)`.
-- History: `TestExecution.filter` on the case across recent runs (`kiwi_rpc`).
+- History: `kiwi_list_executions(case: case_id)` — this case across recent runs.
 - Traces, screenshots, DOM — from the framework, not from Kiwi.
 
 ## Classify
@@ -37,7 +38,8 @@ Same classes as `kiwi-run-triage`:
 
 - Flake → explicit waits, isolated data (`kiwi-data-seeder`), idempotent setup. Not a longer sleep. Retry is temporary and called out.
 - Test defect → locator / wait / data to match current UI. Priority: locators → timing → assertions → flow.
-- Product defect → keep FAILED, file a bug, `TestExecution.add_link`. Leave the assert.
+- Product defect → keep FAILED, file a bug,
+  `kiwi_execution_add_link(execution_id, name, url, is_defect: true)`. Leave the assert.
 - Environment → BLOCKED + comment. Do not weaken the test.
 - **Never skip or disable a test to green the run.**
 - If the test would now check something else → `kiwi-improve-test-cases` / `kiwi_update_case`, not a silent swap.

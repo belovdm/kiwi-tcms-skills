@@ -26,8 +26,9 @@ pipe `kiwi-tcms-pipe`.
 Скилл можно вызвать явно: `/kiwi-write-test-cases` или
 `/test-management:kiwi-write-test-cases`.
 
-Текст кейсов — на языке проекта. Заголовки секций канонические:
-`## Setup` / `## Steps` / `## Expected`.
+Текст кейсов — на русском: заголовок, шаги, ожидаемый результат. Заголовки
+секций тоже на русском: `## Подготовка` / `## Шаги` / `## Ожидаемый результат`.
+Формат: [kiwi-case-format.md](./skills/kiwi-sync-test-cases/references/kiwi-case-format.md).
 
 ## Короткий пример
 
@@ -40,7 +41,7 @@ pipe `kiwi-tcms-pipe`.
 3. Гейты: источники → объём (smoke / balanced) → чек-лист → подтверждение.
 4. После ревизии списка — `kiwi_search_cases` (не плодить дубли) и
    `kiwi_create_case` × N.
-5. В файлы `tests/manual/*.md` дописывается `TC-<id>`.
+5. В файлы `docs/cases/*.md` дописывается `TC-<id>`.
 
 Отчёт: «создано 11 кейсов, план #31, пропущен 1 дубль».
 
@@ -157,14 +158,32 @@ skills/<skill-name>/              # канон, не зависит от аге�
 └── scripts/
 plugins/<bundle>/                 # обёртки Claude / Grok
 ├── plugin.json
+├── .mcp.json                     # регистрирует MCP-сервер kiwi-tcms
 ├── .claude-plugin/plugin.json
-└── skills/ → junctions на ../../skills/*
+└── skills/ → junctions на ../../skills/* (пересобираются link-*.ps1)
 .claude-plugin/marketplace.json
-.grok-plugin/marketplace.json
+.grok-plugin/
+├── marketplace.json
+└── plugin-index.json
+scripts/
+├── link-plugin-skills.ps1        # пересоздаёт junctions в plugins/*/skills/
+└── link-agent-skills.ps1         # пересоздаёт junctions в .claude / .grok / .agents / .cursor
 docs/
 ├── install-details.md
 └── examples.md
 ```
+
+Каждый `plugins/<bundle>/.mcp.json` регистрирует один и тот же MCP-сервер
+`kiwi-tcms` — без него скиллы плагина не смогут вызвать `kiwi_*`, даже если
+плагин установлен отдельно от `test-management`.
+
+`plugins/<bundle>/skills/*` — не symlink (на Windows git часто превращает
+symlink в обычный текстовый файл-указатель), а обычные git-отслеживаемые
+файлы, продублированные из `skills/<skill-name>/`, поверх которых
+`link-plugin-skills.ps1` создаёт NTFS junction локально. Правьте контент
+только в `skills/<skill-name>/` и пересобирайте junctions скриптом — прямая
+правка файла под `plugins/<bundle>/skills/` до пересборки создаст
+рассинхронизацию между двумя git-копиями одного скилла.
 
 Общие факты (каждое в одном месте):
 

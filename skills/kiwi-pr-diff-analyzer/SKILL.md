@@ -19,10 +19,12 @@ Coverage map path: [project-layout.md](../kiwi-scan-automation-project/reference
 
 ```bash
 git branch --show-current
-gh pr view {PR} --json baseRefName,title,body
+gh pr view {PR} --json baseRefName,title,body,comments,reviews
 git diff {BASE}...HEAD --name-only
 gh pr diff {PR}
 ```
+
+Comments and reviews are a source too — test notes, edge cases, reproductions someone already wrote in the thread.
 
 Uncommitted only: `git diff --name-only`.
 
@@ -38,6 +40,7 @@ Stop with a one-line summary (no impact list) when:
 - Group by module (payments, cart, auth, infra).
 - Core (behavior) vs periphery (formatting, comments).
 - PR type: feature / fix / refactor.
+- PR comments/reviews mentioning edge cases, repro steps, or known gaps — fold into risks/checks below, don't restate as a separate section.
 
 Risk per module:
 

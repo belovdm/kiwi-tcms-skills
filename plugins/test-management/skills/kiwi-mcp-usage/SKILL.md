@@ -12,6 +12,16 @@ Call kiwi_* tools in a stable order. Prefer names the server can resolve. Use `k
 
 Install, env, agent config, health-check: [mcp-setup.md](references/mcp-setup.md).
 
+## Entity model
+
+Product → TestPlan (has a PlanType, e.g. Functional/Acceptance/Regression) →
+TestCase (status CONFIRMED/PROPOSED, category, priority, `is_automated`) →
+TestRun (scoped to one plan, has a Build) → TestExecution (one case run inside
+one run; status IDLE/RUNNING/PASSED/FAILED/BLOCKED/ERROR). A TestCase's own
+status (CONFIRMED/PROPOSED) and a TestExecution's status (PASSED/FAILED/…)
+are two different fields on two different entities — never set one where the
+other is meant.
+
 ## Call order
 
 1. `kiwi_ping` — server alive, which product (`KIWI_PROJECT` → Product).
@@ -23,7 +33,8 @@ Install, env, agent config, health-check: [mcp-setup.md](references/mcp-setup.md
 
 ## Names vs ids
 
-- By name (server resolves the id): priority (`P1`…`P5` / `Medium`), category, plan type, status (`CONFIRMED` / `PASSED` / `FAILED`), build, user login.
+- By name (server resolves the id): priority (`P1`…`P5` / `Medium`), category, plan type, build, user login.
+- By name, but two different fields: case status (`CONFIRMED` / `PROPOSED`) via `kiwi_update_case(status)`, execution status (`PASSED` / `FAILED` / `BLOCKED` / …) via `kiwi_update_execution(status)`. Do not pass one to the other's `status`.
 - By id: plan, case, run, execution, `status_id` when the name is ambiguous, `build_id`.
 - Names are case-insensitive. Execution status is resolved in the run's context.
 
@@ -56,6 +67,20 @@ Prefer dedicated tools when they exist: `kiwi_execution_add_link`, `kiwi_executi
 
 Format: `kiwi_rpc { method: "Bug.filter", params: [{ summary__icontains: "double charge" }] }`.
 Positional params = array. Named params = object. Same as Kiwi JSON-RPC.
+
+## Quirks
+
+- `automated` on `kiwi_search_cases`/`kiwi_create_case`/`kiwi_update_case` is
+  the case's `is_automated` flag, not a plan/run property.
+- `category` is required by Kiwi when creating a case — if you omit it, the
+  server silently defaults to the product's first category. Pass one
+  explicitly whenever the category matters.
+- `kiwi_create_plan`'s `type` defaults to `Functional` when omitted. Custom
+  types (e.g. `Exploratory`) do not exist until created —
+  `kiwi_list_plan_types` first, `kiwi_create_plan_type` if missing, only then
+  `kiwi_create_plan`. Do not invent a type name that isn't there.
+- `kiwi_create_run` requires `build` (name or id, looked up on the plan's
+  product); `manager` defaults to the logged-in user when omitted.
 
 ## Rules
 

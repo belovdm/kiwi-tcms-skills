@@ -31,8 +31,8 @@ Do not invent flags — `kiwi-tcms-pipe --help`.
 3. Write JSON in the pipe shape (`title`, `status`, `durationMs`, `error`,
    `tags`).
 4. Send: `kiwi-tcms-pipe --format json --run <id>` (or `--plan` + `--build`).
-5. Attachments (optional). Screenshots/traces → `kiwi_rpc`
-   `TestExecution.add_attachment` (filename + base64).
+5. Attachments (optional). Screenshots/traces →
+   `kiwi_execution_add_attachment(execution_id, filename, b64content)`.
 6. Verify. `kiwi_run_status(run)` matches the Allure summary.
 
 ## Rules

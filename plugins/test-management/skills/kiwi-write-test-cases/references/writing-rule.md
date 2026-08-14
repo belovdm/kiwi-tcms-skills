@@ -2,6 +2,8 @@
 
 If the user provided example cases, follow their style first, then these rules.
 Format: [kiwi-case-format.md](../../kiwi-sync-test-cases/references/kiwi-case-format.md).
+**Case text is Russian** — title, setup, steps, expected results. These
+rules stay in English; the examples below show the actual Russian output.
 
 ## Cases
 
@@ -28,16 +30,16 @@ Avoid:
 
 ## Steps
 
-Numbered list under `## Steps`. Each step is an action; `Expect:` lines are observed facts.
+Numbered list under `## Шаги`. Each step is an action; `Ожидается:` lines are observed facts.
 
 ```markdown
-## Steps
-1. Open the sign-in page
-   Expect: The sign-in form is visible
-2. Enter a valid email and password
-   Expect: The fields accept the values
-3. Click **Sign in**
-   Expect: The shopper is redirected to the dashboard
+## Шаги
+1. Открыть страницу входа
+   Ожидается: форма входа отображается
+2. Ввести действующий email и пароль
+   Ожидается: поля принимают значения
+3. Нажать **Войти**
+   Ожидается: покупатель перенаправлен на дашборд
 ```
 
 - One simple sentence per step. No "and"/"or" of distinct actions.

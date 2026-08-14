@@ -1,11 +1,11 @@
 ---
 name: kiwi-qa-lead-strategy-advisor
 description: >
-  QA strategy and maturity roadmap from an interview plus live Kiwi TCMS
-  metrics (L1–L5). Use when the user wants to set up QA from scratch, decide
-  where to start, improve the process, or assess maturity. Do not use for a
-  concrete task (write cases, analyze this PR, fix this test, sync Kiwi) —
-  those go to kiwi-testing-workflow or the skill that owns the verb.
+  Use when the user wants to set up QA from scratch, decide where to start,
+  improve the process, or assess maturity — a QA strategy and maturity
+  roadmap (L1–L5) from an interview plus live Kiwi TCMS metrics. Do not use
+  for a concrete task (write cases, analyze this PR, fix this test, sync
+  Kiwi) — those go to kiwi-testing-workflow or the skill that owns the verb.
 ---
 
 # QA Strategy Advisor

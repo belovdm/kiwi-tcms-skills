@@ -1,31 +1,59 @@
 # Kiwi case Markdown format
 
 Canonical local file for a Kiwi TCMS case. Sync reads and writes this shape.
-Case *content* follows the project language. Headings stay English.
+**Case content is Russian** — summary, steps, expected results. Section
+headings (`Подготовка` / `Шаги` / `Ожидаемый результат`) are Russian too.
+Metadata bullet keys and Kiwi's own enum values (`P1`…`P5`, `CONFIRMED`, …)
+stay as Kiwi defines them.
 
 ```markdown
-# TC-412: Shopper can pay by card with 3-D Secure
+# TC-412: Оплата картой с 3-D Secure проходит успешно
 
 - **Priority:** P1
 - **Status:** CONFIRMED
 - **Category:** Functional
 - **Tags:** payments, regression
 - **Automated:** false
+- **Requirement:** https://github.com/acme/shop/blob/main/docs/requirements/payments.md
+- **Script:** tests/checkout/pay-by-card.spec.ts
 
-## Setup
-The shopper is signed in. The cart has one in-stock item.
+## Подготовка
+Покупатель авторизован. В корзине один товар в наличии.
 
-## Steps
-1. Open checkout
-   Expect: The payment form is visible
-2. Choose card and enter the test card
-   Expect: Card fields accept the values
-3. Confirm 3-D Secure
-   Expect: The bank challenge completes
+## Шаги
+1. Открыть оформление заказа
+   Ожидается: форма оплаты отображается
+2. Выбрать оплату картой и ввести тестовую карту
+   Ожидается: поля карты принимают значения
+3. Подтвердить 3-D Secure
+   Ожидается: банковская проверка завершается успешно
 
-## Expected
-The payment is confirmed. The order status is Paid.
+## Ожидаемый результат
+Оплата подтверждена. Статус заказа — Paid.
 ```
+
+`**Requirement:**` and `**Script:**` are optional — include them once the
+link target exists. Omit either line rather than leaving it empty.
+
+## Linking to a public repo
+
+`requirement` and `script` are free text — a full URL works as well as a
+path, and a full URL is clickable straight from the Kiwi UI. Prefer one when
+the repo has a known public remote:
+
+1. `git remote get-url origin` (fall back to the push remote / the remote the
+   user names). No remote, or it isn't `github.com` / `gitlab.com` /
+   `bitbucket.org` → use the repo-relative path (`docs/requirements/{topic}.md`,
+   `tests/{file}`). Do not guess a URL for a private or unknown host.
+2. Branch: the repo's default branch (`git remote show origin` → `HEAD
+   branch`), not a feature branch — a case should keep linking to the file
+   after the branch merges and is deleted.
+3. Build the blob URL:
+   - GitHub: `https://github.com/{org}/{repo}/blob/{branch}/{path}`
+   - GitLab: `https://gitlab.com/{org}/{repo}/-/blob/{branch}/{path}`
+   - Bitbucket: `https://bitbucket.org/{org}/{repo}/src/{branch}/{path}`
+4. Write the full URL into `**Requirement:**` / `**Script:**` instead of the
+   bare path.
 
 ## Mapping
 
@@ -38,9 +66,11 @@ The payment is confirmed. The order status is Paid.
 | `**Category:**` | `category` |
 | `**Tags:**` | comma-separated tags |
 | `**Automated:**` | `is_automated` |
-| `## Setup` | `setup` |
-| `## Steps` | `actions` |
-| `## Expected` | `expected` / `expected_results` |
+| `**Requirement:**` | `requirement` — path or full URL (see [Linking to a public repo](#linking-to-a-public-repo)) to the doc in `docs/requirements/`, via `kiwi_create_case(requirement: ...)` / `kiwi_update_case(requirement: ...)`. |
+| `**Script:**` | `script` — path or full URL to the automation spec, via `kiwi_update_case(script: "<path-or-url>")`. Set once the case is automated; matches `**Automated:** true`. |
+| `## Подготовка` | `setup` |
+| `## Шаги` | `actions` |
+| `## Ожидаемый результат` | `expected` / `expected_results` |
 
 `case_text_version` and `notes` go in an HTML comment, not in visible sections.
 
@@ -58,4 +88,4 @@ The payment is confirmed. The order status is Paid.
 - Do not write `id:` / `product:` extra keys. Product is `KIWI_PROJECT`.
 - Text fields are Markdown.
 
-Default directory: `tests/manual/**/*.md`. Keep an existing project folder if it already has cases.
+Default directory: `docs/cases/**/*.md`. Keep an existing project folder if it already has cases.

@@ -19,16 +19,17 @@ MCP: [mcp-setup.md](../kiwi-mcp-usage/references/mcp-setup.md).
 
 - `kiwi_ping` → `ok`.
 - `KIWI_PROJECT` is set.
-- Cases live in `tests/manual/**/*.md` unless the user names another folder.
+- Cases live in `docs/cases/**/*.md` unless the user names another folder.
 
 ## Files → Kiwi
 
 1. Find `*.md` with a `# TC` heading (or every `*.md` in the named folder).
 2. For each file:
    - Has `TC-<id>` → `kiwi_get_case(id)`. Diff summary, actions, expected, priority, status. On drift → `kiwi_update_case` with changed fields only.
+     `**Requirement:**` changed → `kiwi_update_case(requirement)`. `**Script:**` changed → `kiwi_update_case(script)`.
    - No id → `kiwi_search_cases(query: <exact summary>)`.
      - One hit → link: write `TC-<id>` into the heading.
-     - None → `kiwi_create_case(summary, plan, category, priority, setup, actions, expected, tags)`, then write the id back.
+     - None → `kiwi_create_case(summary, plan, category, priority, setup, actions, expected, tags, requirement, script)`, then write the id back.
      - Several → show the options. Do not guess.
 3. Report: created / updated / linked / unchanged / errors.
 

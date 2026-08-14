@@ -1,10 +1,10 @@
 ---
 name: kiwi-qa-thinking
 description: >
-  Reviews a FEATURE as QA before cases exist: edge cases, negatives, abuse,
-  states, races, and non-obvious paths, checked against coverage already in
-  Kiwi TCMS. Use when asked what could go wrong, what is missing, or to
-  brainstorm feature risks. Not for reviewing a requirements document
+  Use when asked what could go wrong, what is missing, or to brainstorm
+  feature risks — reviews a FEATURE as QA before cases exist: edge cases,
+  negatives, abuse, states, races, and non-obvious paths, checked against
+  coverage already in Kiwi TCMS. Not for reviewing a requirements document
   (kiwi-requirement-reviewer), not for PR ticket vs description
   (kiwi-pr-requirements-analyzer), not for extracting AC from a code diff
   (kiwi-pr-diff-analyzer).

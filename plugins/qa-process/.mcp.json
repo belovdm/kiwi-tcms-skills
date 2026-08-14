@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "kiwi-tcms": {
+      "command": "npx",
+      "args": ["-y", "@kiwi-tcms-ai/kiwi-tcms-mcp"]
+    }
+  }
+}

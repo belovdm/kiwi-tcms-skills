@@ -36,7 +36,12 @@ References:
 - No `TC-<id>` on first write — identity is in [kiwi-case-format.md](../kiwi-sync-test-cases/references/kiwi-case-format.md#identity).
 - Priorities and categories come from `kiwi_list_priorities` / `kiwi_list_categories`. Never invent names.
 - Search before create: `kiwi_search_cases(query: <summary>)`. On a hit, offer to attach — do not clone.
-- Paths: [project-layout.md](../kiwi-scan-automation-project/references/project-layout.md). Requirements → `.kiwi-cache/requirements/{topic}.md`. Local cases → `tests/manual/{slug}.md`.
+- Paths: [project-layout.md](../kiwi-scan-automation-project/references/project-layout.md). Requirements → `docs/requirements/{topic}.md`. Local cases → `docs/cases/{slug}.md`.
+- **Case content is Russian** — summary, steps, expected results, and the
+  section headings (`Подготовка` / `Шаги` / `Ожидаемый результат`). See
+  [kiwi-case-format.md](../kiwi-sync-test-cases/references/kiwi-case-format.md).
+- When the source requirement is a file under `docs/requirements/`, put its
+  path in the case's **Requirement** field (Kiwi's `requirement`).
 
 ## Workflow
 
@@ -72,7 +77,7 @@ If the user originally asked only for a checklist, stop here unless they ask for
 
 ### 5. Cases
 
-Write one file per case under `tests/manual/` in [kiwi-case-format.md](../kiwi-sync-test-cases/references/kiwi-case-format.md).
+Write one file per case under `docs/cases/` in [kiwi-case-format.md](../kiwi-sync-test-cases/references/kiwi-case-format.md).
 Follow [writing-rule.md](./references/writing-rule.md).
 
 Show a review table: #, summary, priority, category. Let the user drop / merge / add.
@@ -86,6 +91,7 @@ If the requirement is thin, state that coverage is partial and list uncovered ar
 - Priority hint against the instance list: critical path → P1/Critical, alternatives → P2, negatives → P2–P3, cosmetics → P4+.
 - Tags: feature domain + type (`regression`, `smoke`), comma-separated.
 - For each reviewed case: `kiwi_search_cases(query: summary)` then `kiwi_create_case(summary, plan, category, priority, setup, actions, expected, tags)`.
+- Requirement file known → include `requirement: "docs/requirements/{topic}.md"` in the same `kiwi_create_case` call — a full URL if the repo has a known public remote (see [kiwi-case-format.md](../kiwi-sync-test-cases/references/kiwi-case-format.md#linking-to-a-public-repo)).
 - Write `TC-<id>` into the local heading after create.
 
 ### 7. Summary

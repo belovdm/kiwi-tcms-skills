@@ -27,7 +27,8 @@ flowchart LR
 3. `kiwi_search_cases(query: "QR")` — что уже есть, чтобы не дублировать.
 4. Спрашивает объём: smoke / balanced / exhaustive.
 5. Показывает чек-лист. Вы убираете 2 пункта, добавляете 1.
-6. Пишет `tests/manual/*.md` в формате `## Setup` / `## Steps` / `## Expected`.
+6. Пишет `docs/cases/*.md` на русском, в формате
+   `## Подготовка` / `## Шаги` / `## Ожидаемый результат`.
 7. `kiwi_list_priorities` / `kiwi_list_categories` — только реальные имена
    инстанса.
 8. На каждый согласованный кейс: `kiwi_search_cases` → `kiwi_create_case`.
@@ -61,7 +62,7 @@ flowchart LR
 
 ## 3. Синхронизация Markdown ↔ Kiwi
 
-**Фраза:** «Синхронизируй `tests/manual` с планом „Регресс 1.4“».
+**Фраза:** «Синхронизируй `docs/cases` с планом „Регресс 1.4“».
 
 **Скилл:** `kiwi-sync-test-cases`.
 

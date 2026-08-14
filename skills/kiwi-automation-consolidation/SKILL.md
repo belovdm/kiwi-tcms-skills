@@ -13,7 +13,7 @@ Shrink the automated suite without dropping a scenario or a Kiwi case link.
 
 Behavioral similarity beats code similarity. **No edits without explicit approval.**
 
-Manual / `tests/manual/*.md` duplicates belong to `kiwi-detect-duplicate-test-cases`.
+Manual / `docs/cases/*.md` duplicates belong to `kiwi-detect-duplicate-test-cases`.
 
 ## Scope
 

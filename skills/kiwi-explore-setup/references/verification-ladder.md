@@ -2,7 +2,7 @@
 
 Used by `kiwi-explore-setup`. Walk in order. Stop at the first failure, fix, continue.
 
-This is the Kiwi analog of a first-session check: Kiwi plan + `.kiwi-explore.yml` + browser agent. Not an Explorbot CLI.
+This is the Kiwi analog of a first-session check: Kiwi plan + `.kiwi-explore.yml` + a Playwright MCP browser agent. There is no Explorbot integration in this repo — the browser is driven directly via MCP tool calls (`browser_navigate`, `browser_click`, `browser_snapshot`, …), not a CLI or a config file another tool consumes.
 
 ## A — Kiwi is reachable
 
@@ -16,10 +16,16 @@ This is the Kiwi analog of a first-session check: Kiwi plan + `.kiwi-explore.yml
 Known `plan_id` in `.kiwi-explore.yml`, or create one:
 
 ```
+kiwi_list_plan_types
+```
+
+If `Exploratory` is not in the result, create it first — `kiwi_create_plan_type(name: "Exploratory")`. Do not invent a type name that isn't there.
+
+```
 kiwi_create_plan(name: "Exploratory: <area>", type: "Exploratory")
 ```
 
-Write the returned id into `session.plan_id`. Missing type name → `kiwi_list_plan_types` first. Do not invent a type.
+Write the returned id into `session.plan_id`.
 
 ## C — `curl` the app host
 
@@ -52,7 +58,7 @@ Open `base_url`, sign in if needed, three clicks. Confirm the agent is controlla
 - Stay inside `guardrails.allowed_hosts`.
 - Do not perform `forbidden_actions`.
 
-Agent missing or cannot drive the page → fix the agent (Playwright MCP / browser-use / Puppeteer-MCP). Do not start a session.
+Agent missing or cannot drive the page → fix the Playwright MCP connection (or the chrome-devtools MCP server, if that's the one installed instead). Do not start a session.
 
 ## E — Credentials in env
 

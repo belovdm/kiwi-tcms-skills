@@ -1,10 +1,10 @@
 ---
 name: kiwi-improve-test-cases
 description: >
+  Use when cases are vague, bloated, or un-runnable, or before a sync/audit —
+  "clean up these cases", "improve test cases", "score case quality".
   Analyzes and improves existing test cases (local Markdown and Kiwi TCMS)
-  for clarity, single-idea expected results, and executability. Use when
-  cases are vague, bloated, or un-runnable, or before a sync/audit — "clean
-  up these cases", "improve test cases", "score case quality".
+  for clarity, single-idea expected results, and executability.
 ---
 
 # Improve Test Cases
