@@ -1,6 +1,6 @@
 {
   "name": "test-management",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Test-case lifecycle for Kiwi TCMS — generate, improve, dedupe, coverage, sync via kiwi-tcms-mcp",
   "license": "MIT",
   "keywords": ["testing", "test-management", "kiwi-tcms", "test-cases", "qa"],

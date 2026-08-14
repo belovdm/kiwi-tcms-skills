@@ -93,7 +93,11 @@ If the requirement is thin, state that coverage is partial and list uncovered ar
 - `kiwi_list_categories` / `kiwi_list_priorities` — use only names that exist.
 - Priority hint against the instance list: critical path → P1/Critical, alternatives → P2, negatives → P2–P3, cosmetics → P4+.
 - Tags: feature domain + type (`regression`, `smoke`), comma-separated.
-- For each reviewed case: `kiwi_search_cases(query: summary)` then `kiwi_create_case(summary, plan, category, priority, setup, actions, expected, tags)`.
+- For each reviewed case: `kiwi_search_cases(query: summary)` then
+  `kiwi_create_case(summary, plan, category, priority, text, tags)` — `text`
+  is the whole `## Подготовка` / `## Шаги` / `## Ожидаемый результат` block
+  from the local file, verbatim (Kiwi stores it as one Markdown field, no
+  section params).
 - Requirement file known → include `requirement: "docs/requirements/{topic}.md"` in the same `kiwi_create_case` call — a full URL if the repo has a known public remote (see [kiwi-case-format.md](../kiwi-sync-test-cases/references/kiwi-case-format.md#linking-to-a-public-repo)).
 - Write `TC-<id>` into the local heading after create.
 

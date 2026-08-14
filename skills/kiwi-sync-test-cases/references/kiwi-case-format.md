@@ -68,11 +68,14 @@ the repo has a known public remote:
 | `**Automated:**` | `is_automated` |
 | `**Requirement:**` | `requirement` — path or full URL (see [Linking to a public repo](#linking-to-a-public-repo)) to the doc in `docs/requirements/`, via `kiwi_create_case(requirement: ...)` / `kiwi_update_case(requirement: ...)`. |
 | `**Script:**` | `script` — path or full URL to the automation spec, via `kiwi_update_case(script: "<path-or-url>")`. Set once the case is automated; matches `**Automated:** true`. |
-| `## Подготовка` | `setup` |
-| `## Шаги` | `actions` |
-| `## Ожидаемый результат` | `expected` / `expected_results` |
+| Everything from `## Подготовка` to the end of the file | `text`, verbatim — the whole block (headings included) goes into `kiwi_create_case(text: ...)` / `kiwi_update_case(text: ...)` as one string. Kiwi stores and renders it as Markdown; **the server does not parse or split it.** |
 
 `case_text_version` and `notes` go in an HTML comment, not in visible sections.
+
+Reading a case back (`kiwi_get_case`) returns `text` the same way — one
+Markdown string, unparsed. Read the `## Подготовка` / `## Шаги` /
+`## Ожидаемый результат` sections yourself; there is no separate
+`setup`/`actions`/`expected` field to rely on.
 
 ## Identity
 
@@ -87,5 +90,8 @@ the repo has a known public remote:
 - Metadata is a bold-key bullet list only.
 - Do not write `id:` / `product:` extra keys. Product is `KIWI_PROJECT`.
 - Text fields are Markdown.
+- `kiwi_update_case(text: ...)` **replaces the whole field.** Changing one
+  section (e.g. just Expected) still means sending the full, current body —
+  all sections — as `text`, not a fragment. There is no server-side merge.
 
 Default directory: `docs/cases/**/*.md`. Keep an existing project folder if it already has cases.

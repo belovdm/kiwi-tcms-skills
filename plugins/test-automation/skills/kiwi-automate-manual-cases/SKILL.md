@@ -26,9 +26,11 @@ Where files go: [project-layout.md](../kiwi-scan-automation-project/references/p
 
 ## Write
 
-- `kiwi_get_case(id)` → setup / steps / expected.
-- Setup → `beforeEach`, fixtures, or `kiwi-data-seeder`.
-- Steps → actions. Expected → asserts.
+- `kiwi_get_case(id)` → `text` (one Markdown block with `## Подготовка` /
+  `## Шаги` / `## Ожидаемый результат`, or the project's existing headings).
+  Read the sections directly — the tool no longer splits them out.
+- Подготовка/Setup → `beforeEach`, fixtures, or `kiwi-data-seeder`.
+- Шаги/Steps → actions. Ожидаемый результат/Expected → asserts.
 - **One case → one test** (or one `describe` with data variants). Do not glue independent checks.
 - Follow the project's framework. Playwright / Jest / Mocha first.
   - Playwright: [PLAYWRIGHT_BEST_PRACTICES.md](./references/PLAYWRIGHT_BEST_PRACTICES.md)

@@ -44,7 +44,9 @@ One point each:
    - fill setup; update stale names.
 4. Apply.
    - Local md — edit files in the canonical format.
-   - Kiwi — `kiwi_update_case` with changed fields only. Disputed edits → `kiwi_case_add_comment(id, "Proposal: …")`.
+   - Kiwi — `kiwi_update_case` with changed fields; a body edit sends the
+     full `text` (summary/priority/etc. can go alone, `text` cannot be
+     patched section-by-section). Disputed edits → `kiwi_case_add_comment(id, "Proposal: …")`.
 5. Report. Average score before/after, top-3 systemic defects, changed `TC-<id>` list.
 
 ## Rules

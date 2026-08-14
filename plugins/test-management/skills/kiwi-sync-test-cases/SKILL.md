@@ -25,11 +25,14 @@ MCP: [mcp-setup.md](../kiwi-mcp-usage/references/mcp-setup.md).
 
 1. Find `*.md` with a `# TC` heading (or every `*.md` in the named folder).
 2. For each file:
-   - Has `TC-<id>` → `kiwi_get_case(id)`. Diff summary, actions, expected, priority, status. On drift → `kiwi_update_case` with changed fields only.
+   - Has `TC-<id>` → `kiwi_get_case(id)`. Diff summary, priority, status, and
+     `text` against the local body (compare the whole block — Kiwi doesn't
+     split it). On drift → `kiwi_update_case` with changed fields;
+     a `text` change always sends the full local body, not a fragment.
      `**Requirement:**` changed → `kiwi_update_case(requirement)`. `**Script:**` changed → `kiwi_update_case(script)`.
    - No id → `kiwi_search_cases(query: <exact summary>)`.
      - One hit → link: write `TC-<id>` into the heading.
-     - None → `kiwi_create_case(summary, plan, category, priority, setup, actions, expected, tags, requirement, script)`, then write the id back.
+     - None → `kiwi_create_case(summary, plan, category, priority, text, tags, requirement, script)`, then write the id back.
      - Several → show the options. Do not guess.
 3. Report: created / updated / linked / unchanged / errors.
 
