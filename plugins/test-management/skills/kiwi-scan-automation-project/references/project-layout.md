@@ -16,6 +16,7 @@ coverage.tests.yml           code → tests → cases map
 automation-inventory.yml     scan output
 .kiwi-workflow.yml           testing-workflow state
 .kiwi-explore.yml            exploratory session config
+.kiwi-sources.yml            known issue-tracker/wiki project & space
 ```
 
 | Artifact | Path | File name |
@@ -45,3 +46,7 @@ automation-inventory.yml     scan output
 - Tag each automated test with `C<id>` / `TC-<id>` / `KIWI:<id>` / `[C<id>]` after the case exists in Kiwi.
 - Page objects and helpers live under `src/`, not in `tests/`.
 - Do not write produced cases to `.kiwi-cache/`.
+- `.kiwi-sources.yml` holds the project's known issue-tracker/wiki project
+  or space, so a skill fetching a ticket/page by number doesn't have to ask
+  every run — no credentials in it. Format and fetch flow:
+  [external-sources.md](../../kiwi-write-test-cases/references/external-sources.md).

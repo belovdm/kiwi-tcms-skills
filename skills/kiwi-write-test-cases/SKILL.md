@@ -17,6 +17,7 @@ References:
 
 - [Writing rules](./references/writing-rule.md)
 - [Interview gates](./references/interview-gates.md)
+- [External sources](./references/external-sources.md) (issue tracker / wiki via MCP)
 - [Kiwi case format](../kiwi-sync-test-cases/references/kiwi-case-format.md)
 - [Project layout](../kiwi-scan-automation-project/references/project-layout.md)
 - MCP setup: [mcp-setup.md](../kiwi-mcp-usage/references/mcp-setup.md)
@@ -24,7 +25,9 @@ References:
 ## Prerequisites
 
 - `kiwi_ping` → `ok`. `KIWI_PROJECT` is set.
-- A requirement source (text, ticket, spec, feature description).
+- A requirement source: pasted text, a ticket/wiki reference to fetch (see
+  [external-sources.md](./references/external-sources.md)), spec, or feature
+  description.
 - Target plan known, or will be created with `kiwi_create_plan`.
 
 ## Rules
@@ -58,6 +61,9 @@ References:
 Understand the feature, main journeys, and risk areas.
 
 Sources: the prompt, issue tracker, requirements, mockups, existing Kiwi cases, source code.
+A ticket number or wiki page named as the source → fetch it, don't ask the
+user to paste it, if a matching MCP server is connected:
+[external-sources.md](./references/external-sources.md).
 
 Prefer `kiwi_search_cases` / `kiwi_list_plans` for overlap. If existing cases cover the feature, say so and offer to extend them.
 

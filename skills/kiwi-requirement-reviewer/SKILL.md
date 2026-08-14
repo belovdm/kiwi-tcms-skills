@@ -38,6 +38,10 @@ Also check: boundaries, states, roles, NFRs (load, security, a11y, locale, TZ), 
 
 Document, folder, or chat text.
 If no path is given, look in `docs/requirements/` ([project-layout.md](../kiwi-scan-automation-project/references/project-layout.md)).
+A ticket number or wiki page named as the source → fetch it via a connected
+tracker/wiki MCP instead of asking for a paste, same convention as
+`kiwi-write-test-cases` uses:
+[external-sources.md](../kiwi-write-test-cases/references/external-sources.md).
 
 ### 2. Identify
 
