@@ -1,0 +1,8 @@
+{
+  "name": "test-automation",
+  "version": "1.0.0",
+  "description": "Kiwi TCMS automation — generate autotests, reporter/pipe, Allure, CI, change-aware PRs, triage",
+  "license": "MIT",
+  "keywords": ["testing", "test-automation", "kiwi-tcms", "reporter", "qa", "ci"],
+  "skills": "./skills/"
+}

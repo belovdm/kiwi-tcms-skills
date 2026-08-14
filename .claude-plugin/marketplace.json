@@ -1,0 +1,31 @@
+{
+  "name": "kiwi-tcms-plugins",
+  "metadata": {
+    "description": "Kiwi TCMS plugins and skills: test cases, coverage, reporting, exploratory sessions"
+  },
+  "owner": {
+    "name": "kiwi-tcms-ai"
+  },
+  "plugins": [
+    {
+      "name": "test-management",
+      "source": "./plugins/test-management",
+      "description": "Test-case lifecycle in Kiwi TCMS: write, improve, dedupe, coverage, sync, MCP handbook"
+    },
+    {
+      "name": "qa-process",
+      "source": "./plugins/qa-process",
+      "description": "QA strategy, maturity roadmap, and the tactical test-case orchestrator"
+    },
+    {
+      "name": "test-automation",
+      "source": "./plugins/test-automation",
+      "description": "Autotests, reporter/pipe, Allure import, CI, change-aware PR runs, triage"
+    },
+    {
+      "name": "kiwi-explore",
+      "source": "./plugins/kiwi-explore",
+      "description": "AI exploratory sessions: setup, charter, record findings in Kiwi"
+    }
+  ]
+}

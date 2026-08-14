@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "plugins": {
+    "test-management": {
+      "components": {
+        "skills": [
+          { "name": "kiwi-mcp-usage", "description": "Operate kiwi-tcms-mcp — call order, names vs ids, kiwi_rpc" },
+          { "name": "kiwi-sync-test-cases", "description": "Sync Markdown cases with Kiwi TCMS" },
+          { "name": "kiwi-write-test-cases", "description": "Generate cases and checklists into a Kiwi plan" },
+          { "name": "kiwi-improve-test-cases", "description": "Improve existing cases against a 10-point checklist" },
+          { "name": "kiwi-detect-duplicate-test-cases", "description": "Find duplicate and overlapping cases" },
+          { "name": "kiwi-split-testing-levels-pyramid", "description": "Assign scenarios to unit / integration / e2e / manual" },
+          { "name": "kiwi-test-code-coverage", "description": "Map code → tests → Kiwi cases (coverage.tests.yml)" },
+          { "name": "kiwi-scan-automation-project", "description": "Inventory languages, frameworks, and tests" },
+          { "name": "kiwi-requirement-reviewer", "description": "Review a spec for testability before implementation" },
+          { "name": "kiwi-pr-requirements-analyzer", "description": "What a PR is supposed to do from title, body, ticket" },
+          { "name": "kiwi-pr-diff-analyzer", "description": "What changed in the git diff" },
+          { "name": "kiwi-qa-thinking", "description": "Feature risk lenses vs existing Kiwi coverage" },
+          { "name": "kiwi-e2e-tests-reporting", "description": "Wire kiwi-tcms-reporter or kiwi-tcms-pipe" },
+          { "name": "kiwi-sprint-report", "description": "Sprint QA report from live Kiwi runs" }
+        ],
+        "mcpServers": [{ "name": "kiwi-tcms", "description": "Kiwi TCMS JSON-RPC via @kiwi-tcms-ai/kiwi-tcms-mcp" }]
+      }
+    },
+    "qa-process": {
+      "components": {
+        "skills": [
+          { "name": "kiwi-qa-lead-strategy-advisor", "description": "QA maturity L1–L5 and a prioritized roadmap" },
+          { "name": "kiwi-qa-thinking", "description": "Feature risk lenses vs existing Kiwi coverage" },
+          { "name": "kiwi-split-testing-levels-pyramid", "description": "Assign scenarios to unit / integration / e2e / manual" },
+          { "name": "kiwi-testing-workflow", "description": "Orchestrate scan → design → sync → report → triage" }
+        ]
+      }
+    },
+    "test-automation": {
+      "components": {
+        "skills": [
+          { "name": "kiwi-automate-manual-cases", "description": "CONFIRMED cases → Playwright / Jest / Mocha" },
+          { "name": "kiwi-debug-failed-flaky-autotests", "description": "Fix failing or flaky autotests" },
+          { "name": "kiwi-automation-consolidation", "description": "Deduplicate automated tests" },
+          { "name": "kiwi-data-seeder", "description": "Seed balanced test datasets" },
+          { "name": "kiwi-run-tests-with-reporter", "description": "Run a suite so results land in a Kiwi TestRun" },
+          { "name": "kiwi-setup-ci-automation", "description": "Wire QA jobs and KIWI_* secrets in CI" },
+          { "name": "kiwi-setup-change-aware-testing", "description": "PR impact set from coverage.tests.yml" },
+          { "name": "kiwi-allure-adapter", "description": "Allure results → kiwi-tcms-pipe JSON" },
+          { "name": "kiwi-run-triage", "description": "Classify failed executions in a Kiwi run" }
+        ]
+      }
+    },
+    "kiwi-explore": {
+      "components": {
+        "skills": [
+          { "name": "kiwi-explore-setup", "description": "First-time exploratory setup (.kiwi-explore.yml)" },
+          { "name": "kiwi-explore-fundamentals", "description": "Run a session and record findings in Kiwi" },
+          { "name": "kiwi-explore-plan", "description": "Write an exploratory charter" }
+        ]
+      }
+    }
+  }
+}

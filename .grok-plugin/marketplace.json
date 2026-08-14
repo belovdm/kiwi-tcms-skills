@@ -1,0 +1,37 @@
+{
+  "name": "kiwi-tcms-plugins",
+  "description": "Kiwi TCMS plugins and skills: test cases, coverage, reporting, exploratory sessions",
+  "owner": {
+    "name": "kiwi-tcms-ai"
+  },
+  "plugins": [
+    {
+      "name": "test-management",
+      "description": "Test-case lifecycle in Kiwi TCMS: write, improve, dedupe, coverage, sync, MCP handbook",
+      "category": "testing",
+      "source": { "type": "local", "path": "./plugins/test-management" },
+      "keywords": ["kiwi-tcms", "test-management", "qa"]
+    },
+    {
+      "name": "qa-process",
+      "description": "QA strategy, maturity roadmap, and the tactical test-case orchestrator",
+      "category": "testing",
+      "source": { "type": "local", "path": "./plugins/qa-process" },
+      "keywords": ["kiwi-tcms", "qa", "strategy"]
+    },
+    {
+      "name": "test-automation",
+      "description": "Autotests, reporter/pipe, Allure import, CI, change-aware PR runs, triage",
+      "category": "testing",
+      "source": { "type": "local", "path": "./plugins/test-automation" },
+      "keywords": ["kiwi-tcms", "automation", "reporter"]
+    },
+    {
+      "name": "kiwi-explore",
+      "description": "AI exploratory sessions: setup, charter, record findings in Kiwi",
+      "category": "testing",
+      "source": { "type": "local", "path": "./plugins/kiwi-explore" },
+      "keywords": ["kiwi-tcms", "exploratory"]
+    }
+  ]
+}

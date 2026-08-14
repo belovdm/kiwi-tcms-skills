@@ -1,0 +1,16 @@
+{
+  "name": "@kiwi-tcms-ai/kiwi-tcms-skills",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI skills and Claude/Grok plugins for Kiwi TCMS QA workflows",
+  "license": "MIT",
+  "keywords": [
+    "kiwi-tcms",
+    "skills",
+    "claude-code",
+    "grok",
+    "codex",
+    "qa",
+    "testing"
+  ]
+}

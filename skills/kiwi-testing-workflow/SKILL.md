@@ -1,0 +1,67 @@
+---
+name: kiwi-testing-workflow
+description: >
+  Orchestrate the full test-case lifecycle — scan → design → refine → dedupe →
+  coverage → sync → report → triage — and persist state in .kiwi-workflow.yml.
+  Use when the user wants the full cycle for a feature or plan. Do not use for a
+  single specialist verb, or for QA maturity / where to start
+  (kiwi-qa-lead-strategy-advisor).
+---
+
+# Testing Workflow
+
+Run a feature or plan through the pipeline. Call specialist skills. Do not redo their work.
+
+State file and artifact paths: [project-layout.md](../kiwi-scan-automation-project/references/project-layout.md).
+MCP health: [mcp-setup.md](../kiwi-mcp-usage/references/mcp-setup.md).
+
+## Pipeline
+
+```
+scan → design → refine → dedupe → coverage → sync → report → triage
+```
+
+| Step | Skill | Result |
+| --- | --- | --- |
+| scan | `kiwi-scan-automation-project` | inventory (`automation-inventory.yml`) |
+| design | `kiwi-qa-thinking` → `kiwi-write-test-cases` | plan + cases in Kiwi |
+| refine | `kiwi-improve-test-cases` | weaker cases cleaned up |
+| dedupe | `kiwi-detect-duplicate-test-cases` | duplicates disabled before sync |
+| coverage | `kiwi-test-code-coverage` | `coverage.tests.yml` code ↔ tests ↔ cases |
+| sync | `kiwi-sync-test-cases` | local markdown ↔ Kiwi |
+| report | `kiwi-run-tests-with-reporter` / `kiwi-e2e-tests-reporting` | results in a run |
+| triage | `kiwi-run-triage` | failures classified |
+
+Skip scan when the inventory is fresh. Skip any step whose input is missing (`skipped: coverage — no source access`).
+
+## State
+
+`.kiwi-workflow.yml` (create on first run):
+
+```yaml
+goal: promo-codes
+current_step: design
+done: []
+skipped: {}
+artifacts: {}
+```
+
+- `artifacts` holds plan/run ids and file paths.
+- A stopped cycle resumes from `current_step`, including in a new session.
+
+## Workflow
+
+1. Set the goal and the start step. Not always from scan — "triage this run" starts at triage. Write `goal`, `current_step`, `done`, `artifacts`.
+2. Run each step through its specialist skill. Update `done` and `artifacts` after each.
+3. **Ask before mutations** (create / update / sync) and show a short summary.
+4. Mark skips with a reason.
+5. Finish with a report: what ran, artifacts (plan/run ids, links), what remains.
+
+## Rules
+
+- State lives in **`.kiwi-workflow.yml`**. That is how an interrupted cycle continues.
+- Do not call a skill when its input is absent.
+- Each step ends with a checkable result (id, file, report).
+- This skill **routes**. It does not replace specialists.
+- A single concrete verb → that skill directly.
+- Strategy / maturity / "where do we start" → `kiwi-qa-lead-strategy-advisor`.

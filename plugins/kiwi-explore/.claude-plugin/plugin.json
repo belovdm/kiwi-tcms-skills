@@ -1,0 +1,11 @@
+{
+  "name": "kiwi-explore",
+  "version": "1.0.0",
+  "description": "AI exploratory sessions for Kiwi TCMS — setup, charter, record findings",
+  "author": {
+    "name": "kiwi-tcms-ai"
+  },
+  "license": "MIT",
+  "keywords": ["testing", "exploratory", "kiwi-tcms", "qa"],
+  "skills": "./skills/"
+}
