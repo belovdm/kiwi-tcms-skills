@@ -79,6 +79,9 @@ Positional params = array. Named params = object. Same as Kiwi JSON-RPC.
   types (e.g. `Exploratory`) do not exist until created —
   `kiwi_list_plan_types` first, `kiwi_create_plan_type` if missing, only then
   `kiwi_create_plan`. Do not invent a type name that isn't there.
+- `kiwi_create_plan`'s `text` is the plan document (Kiwi UI: "Документ плана
+  тестирования") — scope, environment, entry/exit criteria. Set it at create
+  time; `kiwi_update_plan(id, text)` also works after the fact.
 - `kiwi_create_run` requires `build` (name or id, looked up on the plan's
   product); `manager` defaults to the logged-in user when omitted.
 

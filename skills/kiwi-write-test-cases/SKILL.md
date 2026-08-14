@@ -86,7 +86,10 @@ If the requirement is thin, state that coverage is partial and list uncovered ar
 
 ### 6. Create in Kiwi
 
-- No plan → `kiwi_list_plans(query)` then `kiwi_create_plan(name, type)` if missing.
+- No plan → `kiwi_list_plans(query)` then `kiwi_create_plan(name, type, text)` if missing.
+  `text` is the plan document (Kiwi's "Документ плана тестирования"): one or
+  two sentences on scope — what the plan covers and what it doesn't, e.g.
+  "Manual coverage for {feature}: {verb, verb, verb}."
 - `kiwi_list_categories` / `kiwi_list_priorities` — use only names that exist.
 - Priority hint against the instance list: critical path → P1/Critical, alternatives → P2, negatives → P2–P3, cosmetics → P4+.
 - Tags: feature domain + type (`regression`, `smoke`), comma-separated.

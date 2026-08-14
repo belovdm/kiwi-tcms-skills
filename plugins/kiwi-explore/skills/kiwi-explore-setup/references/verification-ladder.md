@@ -22,7 +22,7 @@ kiwi_list_plan_types
 If `Exploratory` is not in the result, create it first — `kiwi_create_plan_type(name: "Exploratory")`. Do not invent a type name that isn't there.
 
 ```
-kiwi_create_plan(name: "Exploratory: <area>", type: "Exploratory")
+kiwi_create_plan(name: "Exploratory: <area>", type: "Exploratory", text: "<mission, one line>")
 ```
 
 Write the returned id into `session.plan_id`.

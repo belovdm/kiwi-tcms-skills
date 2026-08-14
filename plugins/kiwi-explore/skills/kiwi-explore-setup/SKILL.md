@@ -25,7 +25,7 @@ If `.kiwi-explore.yml` already exists and a session has been recorded, stop and 
 
 Choose or create a plan: `kiwi_list_plan_types` — if `Exploratory` is not
 in the list, `kiwi_create_plan_type(name: "Exploratory")` first, then
-`kiwi_create_plan(name: "Exploratory: <area>", type: "Exploratory")`.
+`kiwi_create_plan(name: "Exploratory: <area>", type: "Exploratory", text: "<mission, one line>")`.
 
 Recording conventions (into the config):
 
