@@ -81,6 +81,14 @@ powershell -File ./scripts/link-agent-skills.ps1 -Vendors agents
 powershell -File ./scripts/link-agent-skills.ps1 -Scope User -Vendors agents
 ```
 
+`.codex-plugin/plugin.json` в корне репозитория — манифест Codex-плагина
+(тот же формат, что использует `superpowers`): весь `skills/` как один
+плагин `kiwi-tcms-skills`. Он не подключает MCP `kiwi-tcms` — переменные
+`KIWI_*` задавайте в окружении, как для остальных способов установки. Сам
+по себе манифест не публикует пак в официальный маркетплейс Codex (это
+отдельный процесс сабмита); для установки сегодня используйте один из
+способов выше.
+
 ## Cursor
 
 1. Settings → Rules / Skills / Subagents → Add from folder (или GitHub, если

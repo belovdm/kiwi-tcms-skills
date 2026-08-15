@@ -1,0 +1,39 @@
+{
+  "name": "kiwi-tcms-skills",
+  "version": "1.3.0",
+  "description": "AI skills for Kiwi TCMS QA workflows — test cases, coverage, reporting, exploratory sessions via kiwi-tcms-mcp",
+  "author": {
+    "name": "kiwi-tcms-ai"
+  },
+  "homepage": "https://github.com/belovdm/kiwi-tcms-skills",
+  "repository": "https://github.com/belovdm/kiwi-tcms-skills",
+  "license": "MIT",
+  "keywords": [
+    "kiwi-tcms",
+    "test-management",
+    "test-cases",
+    "qa",
+    "testing",
+    "coverage",
+    "exploratory-testing"
+  ],
+  "skills": "./skills/",
+  "hooks": {},
+  "interface": {
+    "displayName": "Kiwi TCMS Skills",
+    "shortDescription": "Test-case lifecycle for Kiwi TCMS — write, improve, dedupe, coverage, sync, automate",
+    "longDescription": "Generate, review, and maintain Kiwi TCMS test cases and plans; track code-to-test coverage; sync local Markdown with Kiwi TCMS; automate CONFIRMED cases; run exploratory sessions; report and triage results — all via kiwi-tcms-mcp and kiwi-tcms-reporter.",
+    "developerName": "kiwi-tcms-ai",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Write test cases for this feature.",
+      "Review this run and triage the failures."
+    ],
+    "websiteURL": "https://github.com/belovdm/kiwi-tcms-skills"
+  }
+}

@@ -166,6 +166,8 @@ plugins/<bundle>/                 # обёртки Claude / Grok
 .grok-plugin/
 ├── marketplace.json
 └── plugin-index.json
+.codex-plugin/
+└── plugin.json                   # весь skills/ как один Codex-плагин
 scripts/
 ├── link-plugin-skills.ps1        # пересоздаёт junctions в plugins/*/skills/
 └── link-agent-skills.ps1         # пересоздаёт junctions в .claude / .grok / .agents / .cursor
