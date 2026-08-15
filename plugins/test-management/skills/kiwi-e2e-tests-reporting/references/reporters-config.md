@@ -56,9 +56,14 @@ mocha --reporter @kiwi-tcms-ai/kiwi-tcms-reporter/mocha \
 | `createMissing` | Create a TestCase for unmatched tests |
 | `commentFailures` | Comment the error text (default true) |
 | `dryRun` | Match only |
+| `closeRun` | Set TestRun.stop_date after a fully successful sync (no errors, no unmatched tests); skipped otherwise |
 | `limitErrorLength` | Truncate failure comments (default 2000) |
 
 Mocha/CLI pass numbers as strings (`plan=12`); the reporter coerces them.
+
+`plan`+`build` mode needs a Version to attach the Build to: the plan's own
+`product_version`, or (fallback) any existing Version for `KIWI_PROJECT`. If
+neither exists, create a Version in Kiwi first.
 
 ## Markers
 

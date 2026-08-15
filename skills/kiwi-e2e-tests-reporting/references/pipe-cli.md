@@ -34,9 +34,14 @@ cat results.json | kiwi-tcms-pipe --run 87
 | `--match-by auto\|tag\|title` | Default `auto` |
 | `--create-missing` | Create unmatched cases |
 | `--dry-run` | Match only |
+| `--close-run` | Set TestRun.stop_date after a fully successful sync (no unmatched tests, no failed ops); skipped otherwise |
 | `--strict` | Exit 1 if unmatched tests or failed ops |
 
 Env: `KIWI_URL`, `KIWI_USERNAME`, `KIWI_PASSWORD`, `KIWI_PROJECT`, `KIWI_TIMEOUT`, `KIWI_INSECURE`.
+
+`--plan`+`--build` needs a Version to attach the Build to: the plan's own
+`product_version`, or (fallback) any existing Version for `KIWI_PROJECT`. If
+neither exists, create a Version in Kiwi first.
 
 ## JSON shape
 
