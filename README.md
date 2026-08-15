@@ -8,7 +8,7 @@ AI-навыки для QA-воркфлоу с [Kiwi TCMS](https://kiwitcms.org) 
 «скилл = спецификация для агента», но все вызовы идут в Kiwi (`kiwi_*`) и в
 pipe `kiwi-tcms-pipe`.
 
-28 скиллов. Тексты `SKILL.md` и `references/` — **на английском** (их читает
+29 скиллов. Тексты `SKILL.md` и `references/` — **на английском** (их читает
 агент). Этот README и `docs/` — **на русском**.
 
 - Установка по агентам: [docs/install-details.md](./docs/install-details.md)
@@ -47,7 +47,7 @@ pipe `kiwi-tcms-pipe`.
 
 Ещё сценарии — в [docs/examples.md](./docs/examples.md).
 
-## Каталог (28)
+## Каталог (29)
 
 ### Управление тестами
 
@@ -101,6 +101,7 @@ pipe `kiwi-tcms-pipe`.
 | Скилл | Откуда | Что делает |
 | --- | --- | --- |
 | `kiwi-mcp-usage` | `testomatio-mcp` | Как вызывать `kiwi_*`: порядок, имена vs id, `kiwi_rpc` |
+| `kiwi-skill-feedback-backlog` | *(дополнительный)* | Бэклог трения от использования скиллов/MCP в `./.kiwi-reports/` (не в гите), для разработчика скиллов |
 
 ## Требования
 

@@ -50,6 +50,5 @@ Thumbs.db
 .yarn/
 .pnpm-store/
 
-# Generated error reports (kiwi-error-reporting); examples stay tracked
-kiwi-reports/mcp-errors/
-kiwi-reports/skill-errors/
+# Generated error reports (kiwi-skill-feedback-backlog) — local runtime output only
+.kiwi-reports/

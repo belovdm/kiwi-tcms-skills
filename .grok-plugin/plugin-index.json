@@ -5,6 +5,7 @@
       "components": {
         "skills": [
           { "name": "kiwi-mcp-usage", "description": "Operate kiwi-tcms-mcp — call order, names vs ids, kiwi_rpc" },
+          { "name": "kiwi-skill-feedback-backlog", "description": "Backlog of friction from using kiwi-tcms-mcp and skills, for the skill developer" },
           { "name": "kiwi-sync-test-cases", "description": "Sync Markdown cases with Kiwi TCMS" },
           { "name": "kiwi-write-test-cases", "description": "Generate cases and checklists into a Kiwi plan" },
           { "name": "kiwi-improve-test-cases", "description": "Improve existing cases against a 10-point checklist" },

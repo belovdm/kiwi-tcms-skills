@@ -8,6 +8,7 @@ $pluginsRoot = Join-Path $PSScriptRoot '..\plugins'
 $bundles = @{
   'test-management' = @(
     'kiwi-mcp-usage',
+    'kiwi-skill-feedback-backlog',
     'kiwi-sync-test-cases',
     'kiwi-write-test-cases',
     'kiwi-improve-test-cases',

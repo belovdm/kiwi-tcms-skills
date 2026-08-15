@@ -55,6 +55,9 @@ other is meant.
 | Timeout | slow server or network | raise `KIWI_TIMEOUT` |
 | `PermissionDenied` | user lacks rights | fix rights in Kiwi; do not bypass |
 
+Unclear or recurring failure (encoding, missing field, schema mismatch) — log
+it with `kiwi-skill-feedback-backlog` instead of guessing.
+
 ## `kiwi_rpc`
 
 Use it when **no dedicated `kiwi_*` tool** exists. Typical leftovers:

@@ -61,7 +61,7 @@ Ready-to-use templates for logging errors. Copy and fill in the blanks.
 ## Follow-up
 - Recurring issue: yes | no
 - Related reports: 
-  - `./kiwi-reports/mcp-errors/YYYY-MM-DD_...` (link if same root cause)
+  - `./.kiwi-reports/mcp-errors/YYYY-MM-DD_...` (link if same root cause)
 - Prevention: (what to check before next call to this tool)
 ```
 
@@ -135,7 +135,7 @@ Ready-to-use templates for logging errors. Copy and fill in the blanks.
 - Recurring issue: yes | no
 - If yes, frequency: daily | weekly | monthly
 - Similar past reports: 
-  - `./kiwi-reports/skill-errors/YYYY-MM-DD_...` (link if pattern exists)
+  - `./.kiwi-reports/skill-errors/YYYY-MM-DD_...` (link if pattern exists)
 - Priority: low | medium | high
 - Assigned to: (who should review and update the skill)
 ```
@@ -175,7 +175,7 @@ Ready-to-use templates for logging errors. Copy and fill in the blanks.
 
 ## Follow-up
 - Recurring issue: yes (seen 3 times this week with Cyrillic test cases)
-- Related reports: `./kiwi-reports/mcp-errors/2025-08-12_10-15-00_kiwi_get_test_case.md`
+- Related reports: `./.kiwi-reports/mcp-errors/2025-08-12_10-15-00_kiwi_get_test_case.md`
 - Prevention: Add encoding auto-detection to MCP client or request server-side UTF-8 enforcement
 ```
 

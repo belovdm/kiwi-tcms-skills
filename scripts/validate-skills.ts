@@ -85,6 +85,44 @@ function checkRelativeLink(link: string, skillDir: string): boolean {
   return fs.existsSync(absolutePath);
 }
 
+// Рекурсивно сравнивает содержимое двух директорий скилла (файл за файлом)
+function diffSkillDirs(canonicalDir: string, pluginDir: string): string[] {
+  const mismatches: string[] = [];
+
+  function walk(relDir: string): void {
+    const canonicalAbs = path.join(canonicalDir, relDir);
+    const entries = fs.readdirSync(canonicalAbs, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const relPath = path.join(relDir, entry.name);
+      const pluginAbs = path.join(pluginDir, relPath);
+
+      if (entry.isDirectory()) {
+        if (!fs.existsSync(pluginAbs)) {
+          mismatches.push(`отсутствует в плагине: ${relPath}`);
+          continue;
+        }
+        walk(relPath);
+        continue;
+      }
+
+      if (!fs.existsSync(pluginAbs)) {
+        mismatches.push(`отсутствует в плагине: ${relPath}`);
+        continue;
+      }
+
+      const canonicalContent = fs.readFileSync(path.join(canonicalDir, relPath));
+      const pluginContent = fs.readFileSync(pluginAbs);
+      if (!canonicalContent.equals(pluginContent)) {
+        mismatches.push(`содержимое отличается: ${relPath}`);
+      }
+    }
+  }
+
+  walk('.');
+  return mismatches;
+}
+
 // Собираем все скиллы из директории
 function collectSkills(dir: string): SkillMetadata[] {
   const skills: SkillMetadata[] = [];
@@ -207,12 +245,29 @@ function validate(): void {
     if (!fs.existsSync(pluginSkillsPath)) continue;
     
     const pluginSkills = collectSkills(pluginSkillsPath);
-    
+
     for (const skill of pluginSkills) {
       if (!allSkillNames.has(skill.name)) {
         allSkillNames.set(skill.name, []);
       }
       allSkillNames.get(skill.name)!.push(skill.path);
+
+      // Плагин — это дубликат canonical skills/<name>/, а не symlink
+      // (git на Windows не отслеживает NTFS junction как ссылку). Если
+      // содержимое разошлось, значит после правки skills/<name>/ забыли
+      // запустить scripts/link-plugin-skills.ps1 и закоммитить заново.
+      const dirName = path.basename(skill.path);
+      const canonicalDir = path.join(SKILLS_DIR, dirName);
+      if (fs.existsSync(canonicalDir)) {
+        const mismatches = diffSkillDirs(canonicalDir, skill.path);
+        for (const mismatch of mismatches) {
+          results.push({
+            file: skill.path,
+            status: 'error',
+            message: `Копия в плагине разошлась с skills/${dirName}/ (${mismatch}). Запустите scripts/link-plugin-skills.ps1 и закоммитьте заново.`
+          });
+        }
+      }
     }
   }
   
