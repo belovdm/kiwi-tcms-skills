@@ -17,7 +17,7 @@
           { "name": "kiwi-pr-requirements-analyzer", "description": "What a PR is supposed to do from title, body, ticket" },
           { "name": "kiwi-pr-diff-analyzer", "description": "What changed in the git diff" },
           { "name": "kiwi-qa-thinking", "description": "Feature risk lenses vs existing Kiwi coverage" },
-          { "name": "kiwi-e2e-tests-reporting", "description": "Wire kiwi-tcms-reporter or kiwi-tcms-pipe" },
+          { "name": "kiwi-setup-e2e-reporting", "description": "Wire kiwi-tcms-reporter or kiwi-tcms-pipe" },
           { "name": "kiwi-sprint-report", "description": "Sprint QA report from live Kiwi runs" }
         ],
         "mcpServers": [{ "name": "kiwi-tcms", "description": "Kiwi TCMS JSON-RPC via @kiwi-tcms-ai/kiwi-tcms-mcp" }]

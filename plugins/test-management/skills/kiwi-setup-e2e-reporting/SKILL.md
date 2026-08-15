@@ -8,11 +8,12 @@ description: >
   wants to tag tests with C412, TC-412, KIWI:412, or [C412].
 ---
 
-# Set Up Automated Test Reporting in Kiwi TCMS
+# Set Up Automated Test Reporting
 
 Install `@kiwi-tcms-ai/kiwi-tcms-reporter` so each test becomes a TestExecution
 in a Kiwi run (status, dates, error text). Package notes:
-[kiwi-tcms-reporter README](../../../kiwi-tcms-reporter/README.md).
+[kiwi-tcms-reporter npm](https://www.npmjs.com/package/@kiwi-tcms-ai/kiwi-tcms-reporter)
+или репозиторий на GitHub.
 
 ## Choose the path
 
