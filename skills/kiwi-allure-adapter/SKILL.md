@@ -13,7 +13,7 @@ Parse `allure-results` into the pipe JSON shape and send them with
 `kiwi-tcms-pipe --format json`. **There is no Allure adapter package.**
 
 Field mapping: [allure-mapping.md](./references/allure-mapping.md).
-Pipe flags: [pipe-cli.md](../kiwi-e2e-tests-reporting/references/pipe-cli.md).
+Pipe flags: [pipe-cli.md](../kiwi-setup-e2e-reporting/references/pipe-cli.md).
 Do not invent flags — `kiwi-tcms-pipe --help`.
 
 ## Preconditions
@@ -44,5 +44,5 @@ Do not invent flags — `kiwi-tcms-pipe --help`.
 
 ## Related
 
-`kiwi-e2e-tests-reporting` (pipe setup), `kiwi-run-tests-with-reporter` (verify
+`kiwi-setup-e2e-reporting` (pipe setup), `kiwi-run-tests-with-reporter` (verify
 a live run), `kiwi-run-triage` (classify failures).

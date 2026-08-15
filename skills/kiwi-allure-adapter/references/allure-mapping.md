@@ -2,7 +2,7 @@
 
 There is no Allure product or adapter package. Parse
 `allure-results/*-result.json` and emit the pipe JSON. Schema:
-[pipe-cli.md](../../kiwi-e2e-tests-reporting/references/pipe-cli.md).
+[pipe-cli.md](../../kiwi-setup-e2e-reporting/references/pipe-cli.md).
 
 ## Fields
 

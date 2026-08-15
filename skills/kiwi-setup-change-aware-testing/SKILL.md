@@ -17,12 +17,12 @@ Map format:
 How to find tests:
 [e2e-frameworks.md](../kiwi-test-code-coverage/references/e2e-frameworks.md).
 Send results:
-[pipe-cli.md](../kiwi-e2e-tests-reporting/references/pipe-cli.md).
+[pipe-cli.md](../kiwi-setup-e2e-reporting/references/pipe-cli.md).
 
 ## Preconditions
 
 - `coverage.tests.yml` exists (`kiwi-test-code-coverage`). If not, build it first.
-- `kiwi_ping` → `ok`. Reporting/pipe is wired (`kiwi-e2e-tests-reporting`).
+- `kiwi_ping` → `ok`. Reporting/pipe is wired (`kiwi-setup-e2e-reporting`).
 - Access to the PR diff (`base...head`).
 
 ## Workflow
@@ -51,4 +51,4 @@ Send results:
 ## Related
 
 `kiwi-test-code-coverage` (build the map), `kiwi-setup-ci-automation` (wire the
-job), `kiwi-e2e-tests-reporting` (send results).
+job), `kiwi-setup-e2e-reporting` (send results).

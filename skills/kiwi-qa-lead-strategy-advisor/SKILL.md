@@ -73,7 +73,7 @@ Format: `initiative → skill → effect → effort`. Read [output-format.md](re
 
 Typical first moves:
 
-1. Run results in Kiwi → `kiwi-e2e-tests-reporting` (first if the pipe is missing).
+1. Run results in Kiwi → `kiwi-setup-e2e-reporting` (first if the pipe is missing).
 2. Test ↔ case links → `kiwi-test-code-coverage`.
 3. Clean the base → `kiwi-detect-duplicate-test-cases` + `kiwi-improve-test-cases`.
 4. Cover risky features → `kiwi-qa-thinking` + `kiwi-write-test-cases`.

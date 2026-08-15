@@ -70,7 +70,7 @@ pipe `kiwi-tcms-pipe`.
 
 | Скилл | Откуда | Что делает |
 | --- | --- | --- |
-| `kiwi-e2e-tests-reporting` | `qa-e2e-tests-reporting` | Подключает `@kiwi-tcms-ai/kiwi-tcms-reporter` или `kiwi-tcms-pipe` |
+| `kiwi-setup-e2e-reporting` | `qa-e2e-tests-reporting` | Подключает `@kiwi-tcms-ai/kiwi-tcms-reporter` или `kiwi-tcms-pipe` |
 | `kiwi-automate-manual-cases` | `automate-manual-test-cases` | CONFIRMED-кейсы → автотесты + `is_automated` |
 | `kiwi-debug-failed-flaky-autotests` | `debug-fix-failed-flaky-autotests` | Падение: тест / продукт / окружение |
 | `kiwi-automation-consolidation` | `qa-automation-test-consolidation` | Дубли автотестов (не ручных `*.md`) |
@@ -189,5 +189,5 @@ symlink в обычный текстовый файл-указатель), а о
 
 - формат кейса → `kiwi-sync-test-cases/references/kiwi-case-format.md`
 - раскладка репо → `kiwi-scan-automation-project/references/project-layout.md`
-- репортер / pipe → `kiwi-e2e-tests-reporting/references/`
+- репортер / pipe → `kiwi-setup-e2e-reporting/references/`
 - установка MCP → `kiwi-mcp-usage/references/mcp-setup.md`

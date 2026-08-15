@@ -95,7 +95,7 @@ flowchart LR
 
 **Фраза:** «Чтобы прогон Playwright сам писал результаты в Kiwi».
 
-**Скилл:** `kiwi-e2e-tests-reporting`.
+**Скилл:** `kiwi-setup-e2e-reporting`.
 
 1. Видит `playwright.config.ts`.
 2. Ставит `@kiwi-tcms-ai/kiwi-tcms-reporter` через `file:`.
@@ -260,6 +260,242 @@ scan → design → refine → dedupe → coverage → sync → report → triag
 По имени: приоритет, категория, статус. По id: план, кейс, ран, исполнение.
 Сначала `kiwi_ping`, потом справочники, потом мутации.
 
+## 15. Рецензия на требования до разработки
+
+**Фраза:** «Проверь требования к фиче „Избранное" на тестопригодность».
+
+**Скилл:** `kiwi-requirement-reviewer`.
+
+Работает с источником как есть — BRD, пользовательская история, тикет, спека, письмо. Не переписывает, не заполняет пробелы молча.
+
+Оценивает по критериям: атомарность, ясность, полнота, согласованность, тестопригодность. Плюс границы, состояния, роли, NFR (нагрузка, безопасность, a11y, локаль, TZ), интеграции (контракты, идемпотентность, retry), измеримое определение готовности.
+
+**Итог — таблица:**
+
+| Требование | Проблема | Тип | Рекомендация |
+| --- | --- | --- | --- |
+| R3: «Быстрый поиск» | Нет метрики | тестопригодность | «Поиск < 300 мс при 10K товаров» |
+| R7 vs R12 | Противоречие в статусах | согласованность | Уточнить статусную модель |
+| R9: «Защита от XSS» | Нет границ | безопасность | OWASP Top 10, контекст вывода |
+
+Дальше — правка требований до начала разработки, не после.
+
+Не путать с `kiwi-pr-requirements-analyzer` (открытый PR) и `kiwi-qa-thinking` (мозговой штурм рисков фичи).
+
+## 16. Посеять тестовые данные
+
+**Фраза:** «Посей данные для тестирования оплаты картами».
+
+**Скилл:** `kiwi-data-seeder`.
+
+Баланс набора: ≥70% нормальных, ≤30% граничных/невалидных/специальных. Данные из кода (типы, валидаторы, схема), не из догадок. Невалидные значения реально ломают найденное правило.
+
+**Важно:** перед генерацией показывает план (категории, количество) и ждёт подтверждения. Сеет только в test/staging, никогда в production.
+
+Идемпотентно: повторный запуск не создаёт дублей. Сохраняет план в `.kiwi-cache/seed-data/{feature}.md`, результат в `test-data.md`.
+
+**Итог:**
+
+| Запись | Класс | Как найти | Кейсы |
+| --- | --- | --- | --- |
+| `card_normal_visa` | normal | last4=1234 | C412, C413 |
+| `card_edge_maxlen` | edge | 19 цифр | C414 |
+| `card_invalid_luhn` | invalid | checksum fail | C415 |
+| `card_special_unicode` | special | эмодзи в имени | C416 |
+
+Связь с кейсами через `kiwi_case_add_comment`. Очистка тем же каналом с тем же маркером.
+
+## 17. Отладка упавших/нестабильных автотестов
+
+**Фраза:** «Тест C412 падает в CI, почини».
+
+**Скилл:** `kiwi-debug-failed-flaky-autotests`.
+
+Классификация перед фиксом:
+
+| Класс | Признак | Действие |
+| --- | --- | --- |
+| Flake | Нестабильно, retry часто проходит | Убрать race condition |
+| Дефект теста | Детерминировано: локатор, wait, данные | Починить тест |
+| Дефект продукта | Поведение противоречит кейсу | Не менять тест, завести баг |
+| Окружение | Сеть, сервис, инфраструктура | Инфра/retry, не ослаблять_asserts_ |
+
+**Никогда не пропускать тест для «зелёного» рана.** Если фикс меняет проверяемое поведение → `kiwi-improve-test-cases` / `kiwi_update_case`.
+
+Подтверждение: прогон 5–10 раз. Нестабильность ушла только после зелёной серии.
+
+## 18. Найти дубли кейсов
+
+**Фраза:** «Найди дубли в плане „Регресс 2.1"».
+
+**Скилл:** `kiwi-detect-duplicate-test-cases`.
+
+Сравнивает Kiwi кейсы, локальные `*.md`, и оба источника вместе. Нормализует текст, считает overlap шагов/ожидаемого результата.
+
+**Уверенность:**
+
+| Балл | Значение | Применять? |
+| --- | --- | --- |
+| 90–100 | Идентичны | Рекомендовать |
+| 80–89 | Одна цель, разная формулировка | Рекомендовать |
+| 60–79 | Связаны | Показать |
+| <60 | Отбросить | ❌ |
+
+Хранитель (keeper): полнее шаги, новее статус, есть исполнения. Проигравшие: локальные — удалить файл, Kiwi — **никогда не удалять**, а `DISABLED` + комментарий «Duplicate of TC-<id>».
+
+Не сливать кейсы с разными `level:*` тегами без проверки.
+
+## 19. Консолидация автотестов
+
+**Фраза:** «Убери дубли в Playwright тестах, сохрани ссылки на Kiwi».
+
+**Скилл:** `kiwi-automation-consolidation`.
+
+Типы дублей:
+
+| Тип | Признак | Фикс |
+| --- | --- | --- |
+| Clone | Одинаковый title + asserts | Удалить копию |
+| Same scenario, different data | Те же шаги, разные данные | Параметризовать |
+| Same asserts, different setup | Общие `expect`, уникальные `before` | Вытащить хелпер |
+| Subset | Тест A — префикс B | Оставить B, если нет уникальных asserts |
+| Overlapping rule | Одна бизнес-правило через разные UI пути | Один путь на правило |
+
+**Важно:** после слияния каждый кейс (`C<id>` / `TC-<id>` / `KIWI:<id>`) остаётся покрытым. Ручные `*.md` — не этот скилл (`kiwi-detect-duplicate-test-cases`).
+
+## 20. Сканирование проекта автоматизации
+
+**Фраза:** «Что у нас есть из автотестов?»
+
+**Скилл:** `kiwi-scan-automation-project`.
+
+Статический скан (не запускает тесты):
+
+- Языки из манифестов (`package.json`, `pyproject.toml`, `pom.xml`…)
+- Фреймворки из конфигов (`playwright.config.*`, `jest.config.*`, `pytest.ini`…)
+- Тест-файлы по конвенциям, оценка количества
+- Kiwi маркеры в названиях/тегах: `C<id>`, `TC-<id>`, `KIWI:<id>`, `[C<id>]`
+- Ручные кейсы: `docs/cases/**/*.md` (synced/unsynced)
+- Репортинг: native, `kiwi-tcms-pipe`, JUnit
+- CI: `.github/workflows`, `.gitlab-ci.yml`, `Jenkinsfile`
+
+Пишет `automation-inventory.yml`:
+
+```yaml
+version: 1
+project: shop-frontend
+languages: { typescript: "5.7", node: ">=20" }
+frameworks:
+  - { name: playwright, config: playwright.config.ts, tests_files: 18, tests_estimate: 214 }
+kiwi_links: { with_id: 96, without_id: 118 }
+manual_cases: { files: 34, synced: 21, unsynced: 13 }
+reporting: none
+gaps:
+  - "118 tests without a Kiwi case link"
+  - "13 manual cases in docs/cases/ not yet synced to Kiwi"
+```
+
+## 21. Разделение по уровням пирамиды
+
+**Фраза:** «Распредели сценарии фичи „Корзина" по уровням пирамиды».
+
+**Скилл:** `kiwi-split-testing-levels-pyramid`.
+
+Каждый сценарий — на самый дешёвый уровень с надёжным оракулом:
+
+| Уровень | Когда | Доля (ориентир) |
+| --- | --- | --- |
+| unit | Чистая логика: расчёты, валидация, форматтеры | ~60–70% |
+| integration | Связки: API↔DB, очереди, моки внешних | ~15–25% |
+| e2e | Критичные end-to-end с реальным UI/API | ~5–10% |
+| manual | UX/визуал, нет автомата-оракула | точечно |
+
+Теги: `level:unit`, `level:integration`, `level:e2e`, `level:manual`.
+
+Если e2e > 15% → опустить часть на integration. После подтверждения проставляет теги и `is_automated` в Kiwi.
+
+## 22. Спринт-отчёт
+
+**Фраза:** «Сделай QA-отчёт за спринт 24».
+
+**Скилл:** `kiwi-sprint-report`.
+
+Разрешает спринт: план/ран по названию или id, либо диапазон дат.
+
+Собирает из Kiwi:
+
+- `kiwi_list_plans` → планы
+- `kiwi_run_status(run_id)` → pass/fail/blocked/idle
+- `kiwi_execution_get_links` → дефекты
+- `kiwi_search_cases(automated: true)` → доля автоматизации
+
+**Метрики:**
+
+- Кейсов в плане / исполнено / не исполнено
+- Pass-rate по ранам, тренд
+- Failed по причинам (продукт/тест/окружение)
+- Доля автоматизации
+
+**Выделяет:** блокирующие баги, зоны с низким pass-rate, IDLE кейсы и причины.
+
+Шаблон: [sprint-report-template.md](../skills/kiwi-sprint-report/references/sprint-report-template.md).
+
+## 23. Performance-тестирование
+
+**Фраза:** «Прогони нагрузочный тест на checkout API».
+
+**Скилл:** `kiwi-performance-testing`.
+
+Типы тестов: load (ожидаемая нагрузка), stress (до предела), spike (резкий скачок), soak (на долгий период).
+
+**SLA/SLO пример:**
+
+| Метрика | SLA | Факт | Статус |
+| --- | --- | --- | --- |
+| p95 latency | < 2000ms | 1842ms | ✅ |
+| Error rate | < 1% | 2.3% | ❌ |
+| Throughput | > 400 RPS | 521 RPS | ✅ |
+
+**Никогда не запускать на production** без явного одобрения. Результаты в `.kiwi-cache/perf/{feature}-{date}.md`, линки на Kiwi кейсы с тегом `level:performance`.
+
+## 24. Accessibility (a11y) тестирование
+
+**Фраза:** «Проверь checkout на WCAG 2.1 AA».
+
+**Скилл:** `kiwi-accessibility-testing`.
+
+WCAG принципы POUR: Perceivable, Operable, Understandable, Robust. Уровни A / AA / AAA (цель — AA).
+
+**Автоматически + вручную:** axe-core ловит ~30–50%, остальное — keyboard nav, screen reader (NVDA/VoiceOver), contrast picker.
+
+**Частые нарушения:**
+
+| Нарушение | WCAG | Фикс |
+| --- | --- | --- |
+| Низкий контраст | 1.4.3 (AA) | Цвета ≥ 4.5:1 |
+| Нет alt у картинки | 1.1.1 (A) | `alt="описание"` |
+| Нет label у поля | 1.3.1 (A) | `<label for="...">` |
+
+Результаты в `.kiwi-cache/a11y/{page}-{date}.md`, кейсы с тегами `level:a11y`, `wcag:AA`.
+
+## 25. API Contract Testing
+
+**Фраза:** «Проверь API на соответствие OpenAPI спецификации».
+
+**Скилл:** `kiwi-api-contract-testing`.
+
+Виды контрактов: schema (OpenAPI/GraphQL), consumer-driven (Pact), integration.
+
+**Breaking changes:**
+
+| Изменение | Impact | Пример |
+| --- | --- | --- |
+| Удаление эндпоинта | Critical | `DELETE /users/{id}` удалён |
+| Удаление обязательного поля | Critical | `email` нет в ответе |
+| Изменение типа | Critical | `id: string` → `id: number` |
+
+**Никогда не пропускать contract tests в CI.** Результаты в `.kiwi-cache/contract/{service}-{date}.md`, кейсы с тегами `level:contract`, `api:<service>`.
+
 ## Какой скилл не брать
 
 | Хотите | Не тот скилл | Тот |
@@ -271,5 +507,5 @@ scan → design → refine → dedupe → coverage → sync → report → triag
 | Дубли автотестов | `kiwi-detect-duplicate-test-cases` | `kiwi-automation-consolidation` |
 | Намерение PR | `kiwi-pr-diff-analyzer` | `kiwi-pr-requirements-analyzer` |
 | Diff кода | `kiwi-pr-requirements-analyzer` | `kiwi-pr-diff-analyzer` |
-| Только прогнать в ран | `kiwi-e2e-tests-reporting` | `kiwi-run-tests-with-reporter` |
-| Только воткнуть репортер | `kiwi-run-tests-with-reporter` | `kiwi-e2e-tests-reporting` |
+| Только прогнать в ран | `kiwi-setup-e2e-reporting` | `kiwi-run-tests-with-reporter` |
+| Только воткнуть репортер | `kiwi-run-tests-with-reporter` | `kiwi-setup-e2e-reporting` |

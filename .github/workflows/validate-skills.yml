@@ -1,0 +1,40 @@
+name: Skills Validation
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'skills/**'
+      - 'plugins/**/skills/**'
+      - 'scripts/validate-skills.ts'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'skills/**'
+      - 'plugins/**/skills/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run Skills Validator
+        run: npx tsx scripts/validate-skills.ts
+        
+      - name: Check for errors
+        run: |
+          if npx tsx scripts/validate-skills.ts 2>&1 | grep -q "❌ Errors: [1-9]"; then
+            echo "::error::Валидация скиллов не пройдена!"
+            exit 1
+          fi

@@ -73,5 +73,5 @@ Per group: shared intent in one sentence, what is unique, what would be lost.
 - Weaken asserts to make two tests "the same".
 - Merge unit and e2e into one test.
 - Touch manual `*.md` or disable Kiwi cases.
-- Drop a `C<id>` / `TC-<id>` / `KIWI:<id>` tag on merge — the reporter will lose the match ([reporters-config.md](../kiwi-e2e-tests-reporting/references/reporters-config.md)).
+- Drop a `C<id>` / `TC-<id>` / `KIWI:<id>` tag on merge — the reporter will lose the match ([reporters-config.md](../kiwi-setup-e2e-reporting/references/reporters-config.md)).
 - Leave a case with no test. Restore it via `kiwi-automate-manual-cases`.

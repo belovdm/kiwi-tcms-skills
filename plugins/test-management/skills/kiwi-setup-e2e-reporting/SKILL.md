@@ -1,5 +1,5 @@
 ---
-name: kiwi-e2e-tests-reporting
+name: kiwi-setup-e2e-reporting
 description: >
   Installs and wires automated test reporting into Kiwi TCMS via
   @kiwi-tcms-ai/kiwi-tcms-reporter. Native adapters for Playwright, Jest, and

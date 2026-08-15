@@ -26,7 +26,7 @@ Do not paste the schema here.
 npx js-yaml coverage.tests.yml | node <path-to-this-skill>/scripts/check-coverage.mjs
 ```
 
-5. Impact. `git diff --name-only <base>...HEAD` → keys → test files / case markers. Run that set. Send results with `@kiwi-tcms-ai/kiwi-tcms-reporter` (`build` = commit). Flags live in [reporters-config.md](../kiwi-e2e-tests-reporting/references/reporters-config.md).
+5. Impact. `git diff --name-only <base>...HEAD` → keys → test files / case markers. Run that set. Send results with `@kiwi-tcms-ai/kiwi-tcms-reporter` (`build` = commit). Flags live in [reporters-config.md](../kiwi-setup-e2e-reporting/references/reporters-config.md).
 6. Gaps. Prioritize empty `tests: []` by domain. Propose cases (`kiwi-write-test-cases`) and autotests (`kiwi-automate-manual-cases`).
 
 ## Rules

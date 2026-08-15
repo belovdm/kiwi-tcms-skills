@@ -37,7 +37,7 @@ Where files go: [project-layout.md](../kiwi-scan-automation-project/references/p
   - POM: [POM_BEST_PRACTICES.md](./references/POM_BEST_PRACTICES.md)
   - Data: [TEST_DATA_MANAGEMENT.md](./references/TEST_DATA_MANAGEMENT.md)
   - CodeceptJS only if the scan found it: [CODECEPTJS_BEST_PRACTICES.md](./references/CODECEPTJS_BEST_PRACTICES.md)
-- **Every test title or Playwright `tag` carries the case id:** `C412`, `TC-412`, `KIWI:412`, `[C412]`. That is what `@kiwi-tcms-ai/kiwi-tcms-reporter` matches — see [reporters-config.md](../kiwi-e2e-tests-reporting/references/reporters-config.md).
+- **Every test title or Playwright `tag` carries the case id:** `C412`, `TC-412`, `KIWI:412`, `[C412]`. That is what `@kiwi-tcms-ai/kiwi-tcms-reporter` matches — see [reporters-config.md](../kiwi-setup-e2e-reporting/references/reporters-config.md).
 - Explicit waits. Idempotent data. Selectors: `data-testid` / role, then text. Not a DOM path.
 - Do not change the case meaning. Gaps → `kiwi_case_add_comment`, not a silent rewrite.
 
@@ -52,5 +52,5 @@ Where files go: [project-layout.md](../kiwi-scan-automation-project/references/p
 - `kiwi_update_case(id, automated: true)`.
 - Optional tag `level:e2e` / `level:integration` (`kiwi-split-testing-levels-pyramid`).
 - Optional `kiwi_case_add_comment(id, "Automated: <path>")`.
-- Confirm the reporter/pipe will see the new test (`kiwi-e2e-tests-reporting`).
+- Confirm the reporter/pipe will see the new test (`kiwi-setup-e2e-reporting`).
 - Summary: [FINAL_SUMMARY_TEMPLATE.md](./references/FINAL_SUMMARY_TEMPLATE.md).

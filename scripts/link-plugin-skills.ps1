@@ -19,7 +19,7 @@ $bundles = @{
     'kiwi-pr-requirements-analyzer',
     'kiwi-pr-diff-analyzer',
     'kiwi-qa-thinking',
-    'kiwi-e2e-tests-reporting',
+    'kiwi-setup-e2e-reporting',
     'kiwi-sprint-report'
   )
   'qa-process' = @(
