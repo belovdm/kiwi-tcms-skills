@@ -34,6 +34,8 @@ scan → design → refine → dedupe → coverage → sync → report → triag
 
 Skip scan when the inventory is fresh. Skip any step whose input is missing (`skipped: coverage — no source access`).
 
+`design` can stop early: `kiwi-write-test-cases`'s readiness gate blocks on ❌ Not ready until resolved or explicitly overridden — record that as the current step's state, don't route around it.
+
 ## Also routes to (outside the pipeline)
 
 Requests that name one concrete task go straight to that skill, not through the pipeline state machine:

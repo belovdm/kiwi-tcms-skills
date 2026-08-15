@@ -34,6 +34,10 @@ automation-inventory.yml     scan output
 - `docs/requirements/` and `docs/cases/` are **committed**, not gitignored —
   they are the project's documentation, not a cache. Only `.kiwi-cache/`
   (scratch/derived artifacts) is gitignored.
+- A requirement file may contain a `## Чеклист покрытия` section — the
+  confirmed test-design checklist `kiwi-write-test-cases` persists there
+  before writing cases, so cases trace back to both the requirement and the
+  checklist item they came from.
 - Cross-link a case to its requirement: put the requirement's path or URL in
   the case's **Requirement** field (Kiwi's `requirement` field —
   `kiwi_create_case(requirement: "docs/requirements/{topic}.md")` /

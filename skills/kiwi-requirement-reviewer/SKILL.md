@@ -32,6 +32,8 @@ Examples: [requirements_reviewer_examples.md](./references/requirements_reviewer
 
 Also check: boundaries, states, roles, NFRs (load, security, a11y, locale, TZ), integrations (contracts, idempotency, retries), measurable definition of done.
 
+`kiwi-write-test-cases` runs a lightweight pass/fail version of this same table as its readiness gate — a ❌ verdict there blocks checklist generation until resolved or explicitly overridden.
+
 ## Workflow
 
 ### 1. Gather
