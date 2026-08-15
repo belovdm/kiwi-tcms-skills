@@ -18,7 +18,7 @@ Layout of produced artifacts: [project-layout.md](./references/project-layout.md
 ## Collect
 
 - Languages / toolchain from manifests: `package.json`, `pyproject.toml`, `pom.xml`, `build.gradle`, `go.mod`, `composer.json`.
-- Frameworks from configs: `playwright.config.*`, `jest.config.*`, `.mocharc*`, `vitest`, `cypress.config.*`, `pytest.ini`, `conftest.py`, JUnit / TestNG.
+- Frameworks from configs: `playwright.config.*`, `jest.config.*`, `.mocharc*`, `vitest`, `cypress.config.*`, `pytest.ini`, `conftest.py`, `pyproject.toml` (`[tool.pytest.ini_options]`), JUnit / TestNG.
 - Test files by convention (`*.spec.ts`, `test_*.py`, `*Test.java`): file count, estimated tests, unit / e2e / integration split.
 - Kiwi markers in titles / tags: `C<id>`, `TC-<id>`, `KIWI:<id>`, `[C<id>]`. Count linked vs unlinked.
 - Manual cases: `docs/cases/**/*.md` (the canonical location — see [project-layout.md](./references/project-layout.md)). Count files; count how many already carry a `TC-<id>` header (synced) vs none (not yet in Kiwi).

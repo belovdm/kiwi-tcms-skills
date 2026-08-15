@@ -33,7 +33,9 @@ Do not invent flags — `kiwi-tcms-pipe --help`.
    - release tag → run on the release candidate.
 3. Job shape. Install deps → (build the app) → run tests → publish
    artifacts (JUnit, screenshots, traces) → `kiwi-tcms-pipe` (skip the pipe
-   step if the native reporter already wrote the run).
+   step if the native reporter already wrote the run). `kiwi-tcms-pipe` is a
+   Node CLI — a Python/pytest job needs a Node setup step too, even if the
+   rest of the job is pure Python.
 4. Stability. Shard the suite. Retry only marked flakes, with a cap.
    Job timeout. Cache deps. Isolate data (`kiwi-data-seeder`).
 5. Kiwi. `build` = tag or commit. Check `kiwi_run_status`. Notify chat:

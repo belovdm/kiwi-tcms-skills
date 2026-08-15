@@ -15,6 +15,14 @@ npx playwright test --reporter=junit
 npx kiwi-tcms-pipe --plan 12 --build "$CI_COMMIT_TAG" --results junit.xml
 ```
 
+Python/pytest — see [pytest-tests.md](./pytest-tests.md) for why the marker
+must live in the docstring, not the test function name:
+
+```bash
+pytest   # conftest.py writes kiwi-results.json (Option A in pytest-tests.md)
+npx kiwi-tcms-pipe --plan 12 --build "$CI_COMMIT_TAG" --results kiwi-results.json --format json
+```
+
 JSON from stdin:
 
 ```bash
