@@ -1,0 +1,343 @@
+# 🔄 Kiwi TCMS Skills Workflow
+
+Этот файл описывает рекомендуемый порядок использования скиллов в различных сценариях QA-процесса.
+
+## 📋 Глобальные артефакты
+
+| Файл | Описание | Создаётся скиллами |
+| --- | --- | --- |
+| `.kiwi-workflow.yml` | Конфигурация workflow (этот файл) | — |
+| `requirements.analysis.yml` | Анализ требований | `kiwi-requirement-analyzer`, `kiwi-requirement-reviewer` |
+| `pr.changes.yml` | Изменения в PR | `kiwi-detect-changes-in-pr` |
+| `coverage.tests.yml` | Матрица покрытия | `kiwi-assess-maturity-level` |
+| `automation-inventory.yml` | Инвентарь автотестов | `kiwi-scan-automation-project` |
+| `testing-pyramid.yml` | Распределение по уровням | `kiwi-split-testing-levels-pyramid` |
+| `duplicates.report.yml` | Отчёт о дублях | `kiwi-detect-duplicate-test-cases`, `kiwi-automation-consolidation` |
+| `root-cause.analysis.yml` | Анализ причин падений | `kiwi-debug-failed-autotest`, `kiwi-debug-failed-flaky-autotests` |
+| `performance.report.yml` | Отчёт по performance | `kiwi-performance-testing` |
+| `a11y.report.yml` | Отчёт по доступности | `kiwi-accessibility-testing` |
+| `contract.validation.yml` | Валидация контрактов API | `kiwi-api-contract-testing` |
+| `sprint.qa.report.yml` | Отчёт за спринт | `kiwi-sprint-report` |
+| `maturity.assessment.yml` | Оценка зрелости | `kiwi-assess-maturity-level` |
+
+---
+
+## 🎯 Workflow 1: Новая фича (Feature Development)
+
+```yaml
+workflow: feature-development
+trigger: новый user story / требование
+steps:
+  - step: 1
+    skill: kiwi-requirement-reviewer
+    input: текст требования из Jira/Confluence
+    output: requirements.analysis.yml
+    description: Проверка на тестопригодность, поиск неоднозначностей
+    
+  - step: 2
+    skill: kiwi-requirement-analyzer
+    input: утверждённое требование
+    output: список тестовых сценариев
+    description: Извлечение acceptance criteria, тестовых сценариев
+    
+  - step: 3
+    skill: kiwi-write-test-cases
+    input: сценарии от предыдущего шага
+    output: тест-кейсы в Kiwi TCMS
+    params:
+      language: ru
+      type: functional
+    description: Создание детальных тест-кейсов с шагами и ожидаемыми результатами
+    
+  - step: 4
+    skill: kiwi-generate-checklist-from-requirements
+    input: требование
+    output: smoke-checklist.md
+    description: Чек-лист для быстрого смоук-тестирования
+    
+  - step: 5 (опционально)
+    skill: kiwi-data-seeder
+    input: требования к данным
+    output: seed-data.sql / seed-data.json
+    params:
+      balance: 70/30 # позитив/негатив
+    description: Генерация тестовых данных
+```
+
+---
+
+## 🔀 Workflow 2: Code Review Pull Request
+
+```yaml
+workflow: pr-review
+trigger: открыт PR в GitHub/GitLab
+steps:
+  - step: 1
+    skill: kiwi-detect-changes-in-pr
+    input: URL или номер PR
+    output: pr.changes.yml
+    description: Анализ диффа, выявление затронутых компонентов
+    
+  - step: 2
+    skill: kiwi-sync-test-cases
+    input: pr.changes.yml
+    output: обновлённые тест-кейсы в Kiwi TCMS
+    params:
+      auto-link: true
+    description: Обновление существующих кейсов согласно изменениям
+    
+  - step: 3
+    skill: kiwi-select-tests-for-regression
+    input: pr.changes.yml + история запусков
+    output: regression-test-plan.yml
+    description: Выборка тестов для регрессионного прогона
+    
+  - step: 4 (опционально)
+    skill: kiwi-write-test-cases
+    input: контекст PR
+    params:
+      pr-context: true
+    output: новые тест-кейсы в Kiwi TCMS
+    description: Создание новых кейсов для новой функциональности в PR
+    
+  - step: 5 (после мержа)
+    skill: kiwi-scan-automation-project
+    input: путь к репозиторию
+    output: automation-inventory.yml
+    description: Актуализация инвентаря автотестов
+```
+
+---
+
+## 🐛 Workflow 3: Расследование инцидента / Flaky Tests
+
+```yaml
+workflow: incident-investigation
+trigger: множественные падения автотестов / продакшен-инцидент
+steps:
+  - step: 1
+    skill: kiwi-debug-failed-flaky-autotests
+    input: логи падений, история запусков
+    output: root-cause.analysis.yml
+    params:
+      classification: true # flake / test defect / product defect / environment
+    description: Классификация причин падений
+    
+  - step: 2
+    skill: kiwi-detect-duplicate-test-cases
+    input: ID падающих тестов
+    output: duplicates.report.yml
+    params:
+      confidence-threshold: 80
+    description: Поиск дублей (возможная причина нестабильности)
+    
+  - step: 3
+    skill: kiwi-automation-consolidation
+    input: duplicates.report.yml
+    output: consolidation-plan.yml
+    params:
+      type: clone | same-scenario-different-data | overlapping
+    description: План консолидации дублирующихся автотестов
+    
+  - step: 4
+    skill: kiwi-split-testing-levels-pyramid
+    input: consolidation-plan.yml
+    output: testing-pyramid.yml
+    description: Перераспределение тестов по уровням пирамиды
+```
+
+---
+
+## 🚀 Workflow 4: Подготовка к релизу (Pre-Release)
+
+```yaml
+workflow: pre-release
+trigger: запланированный релиз / code freeze
+steps:
+  - step: 1
+    skill: kiwi-performance-testing
+    input: критические пользовательские сценарии
+    output: performance.report.yml
+    params:
+      types: [load, stress, spike]
+      tool: k6 # или jmeter, gatling
+      sla:
+        p95_latency_ms: 500
+        error_rate_percent: 0.1
+    description: Нагрузочное тестирование ключевых сценариев
+    
+  - step: 2
+    skill: kiwi-accessibility-testing
+    input: URL основных страниц
+    output: a11y.report.yml
+    params:
+      wcag_level: AA
+      tools: [axe-core, manual]
+    description: Проверка доступности по WCAG 2.1/2.2
+    
+  - step: 3
+    skill: kiwi-api-contract-testing
+    input: OpenAPI spec / GraphQL schema
+    output: contract.validation.yml
+    params:
+      check-breaking-changes: true
+      pact-broker-url: https://pact.example.com
+    description: Валидация контрактов API, поиск breaking changes
+    
+  - step: 4
+    skill: kiwi-assess-maturity-level
+    input: все артефакты workflow
+    output: maturity.assessment.yml
+    params:
+      focus: [coverage, automation, stability]
+    description: Финальная оценка готовности к релизу
+    
+  - step: 5
+    skill: kiwi-sprint-report
+    input: Kiwi TCMS project ID, sprint dates
+    output: sprint.qa.report.yml
+    description: Итоговый отчёт для стейкхолдеров
+```
+
+---
+
+## 📊 Workflow 5: Аудит качества (Quality Audit)
+
+```yaml
+workflow: quality-audit
+trigger: квартальный аудит / инициатива улучшений
+steps:
+  - step: 1
+    skill: kiwi-assess-maturity-level
+    input: доступ к Kiwi TCMS, репозиторию
+    output: maturity.assessment.yml
+    params:
+      levels: L1-L5
+      dimensions: [process, coverage, automation, stability, team]
+    description: Комплексная оценка зрелости QA-процессов
+    
+  - step: 2
+    skill: kiwi-scan-automation-project
+    input: пути к репозиториям с автотестами
+    output: automation-inventory.yml
+    description: Полная инвентаризация автотестов
+    
+  - step: 3
+    skill: kiwi-detect-duplicate-test-cases
+    input: все тест-кейсы из Kiwi TCMS
+    output: duplicates.report.yml
+    description: Поиск дублей тест-кейсов
+    
+  - step: 4
+    skill: kiwi-automation-consolidation
+    input: automation-inventory.yml + duplicates.report.yml
+    output: consolidation-roadmap.yml
+    description: План устранения технического долга
+    
+  - step: 5
+    skill: kiwi-plan-process-improvement
+    input: maturity.assessment.yml + consolidation-roadmap.yml
+    output: improvement-plan.yml
+    params:
+      timeframe: quarterly
+      priorities: top-5
+    description: Дорожная карта улучшений на квартал
+```
+
+---
+
+## 🧪 Workflow 6: Исследовательское тестирование (Exploratory Testing)
+
+```yaml
+workflow: exploratory-testing
+trigger: новая фича / сложный баг / время на эксперименты
+steps:
+  - step: 1
+    skill: kiwi-exploratory-testing-session
+    input: область исследования, таймбокс
+    output: session-notes.md, charters.md
+    params:
+      duration: 90 # минут
+      focus: [usability, edge-cases, security]
+    description: Структурированная сессия исследовательского тестирования
+    
+  - step: 2
+    skill: kiwi-write-test-cases
+    input: найденные сценарии из session-notes.md
+    output: новые тест-кейсы в Kiwi TCMS
+    params:
+      source: exploratory
+    description: Формализация успешных чартеров в тест-кейсы
+```
+
+---
+
+## 📈 Метрики и KPI
+
+| Метрика | Как измеряется | Целевое значение |
+| --- | --- | --- |
+| **Test Coverage** | `kiwi-assess-maturity-level` | >80% критических путей |
+| **Automation Rate** | `automation-inventory.yml` | >70% регрессионных тестов |
+| **Flaky Rate** | `root-cause.analysis.yml` | <2% |
+| **Duplicate Rate** | `duplicates.report.yml` | <5% |
+| **Performance SLA** | `performance.report.yml` | p95 <500ms, errors <0.1% |
+| **Accessibility Compliance** | `a11y.report.yml` | WCAG 2.1 AA |
+| **Contract Stability** | `contract.validation.yml` | 0 breaking changes без major version |
+| **Maturity Level** | `maturity.assessment.yml` | L3+ (оптимизированный) |
+
+---
+
+## 🔗 Интеграция с CI/CD
+
+```yaml
+# Пример .github/workflows/qa-skills.yml
+name: QA Skills Automation
+
+on:
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    - cron: '0 2 * * 1-5' # Ежедневно в 02:00 пн-пт
+
+jobs:
+  pr-analysis:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Detect PR Changes
+        run: npx @kiwi-tcms-ai/kiwi-tcms-skills kiwi-detect-changes-in-pr --pr=${{ github.event.pull_request.number }}
+      - name: Sync Test Cases
+        run: npx @kiwi-tcms-ai/kiwi-tcms-skills kiwi-sync-test-cases --input=pr.changes.yml
+        
+  nightly-regression:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Select Regression Tests
+        run: npx @kiwi-tcms-ai/kiwi-tcms-skills kiwi-select-tests-for-regression --output=regression-plan.yml
+      - name: Run Tests
+        run: ./run-tests.sh --plan=regression-plan.yml
+      - name: Generate Report
+        run: npx @kiwi-tcms-ai/kiwi-tcms-skills kiwi-sprint-report --output=sprint.qa.report.yml
+```
+
+---
+
+## ✅ Чек-лист перед запуском workflow
+
+- [ ] Установлен и настроен MCP-сервер Kiwi TCMS
+- [ ] Есть доступ к Kiwi TCMS API (токен в `.env`)
+- [ ] Скиллы установлены: `npx @kiwi-tcms-ai/kiwi-tcms-skills add`
+- [ ] Проверена валидация: `npx tsx scripts/validate-skills.ts`
+- [ ] Настроены переменные окружения (KIWI_URL, KIWI_API_TOKEN)
+
+---
+
+## 📚 Дополнительные ресурсы
+
+- [Примеры использования всех скиллов](./docs/examples.md)
+- [Дерево решений: какой скилл выбрать](./docs/DECISION-TREE.md)
+- [Troubleshooting частых проблем](./TROUBLESHOOTING.md)
+- [Детали установки](./docs/install-details.md)

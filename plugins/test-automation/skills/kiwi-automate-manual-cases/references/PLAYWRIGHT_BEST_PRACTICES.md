@@ -36,7 +36,7 @@ test("Shopper can pay by card", { tag: ["@C412"] }, async ({ page }) => { /* …
 ```
 
 Accepted: `C412`, `TC-412`, `KIWI:412`, `[C412]`.
-Reporter: [reporters-config.md](../../kiwi-e2e-tests-reporting/references/reporters-config.md).
+Reporter: [reporters-config.md](../../kiwi-setup-e2e-reporting/references/reporters-config.md).
 
 ## Avoid
 

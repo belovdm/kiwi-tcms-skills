@@ -10,12 +10,12 @@ description: >
 # Run Tests Into a Kiwi TCMS Run
 
 Execute the suite so every result lands in Kiwi: run, executions, statuses,
-errors. Do not re-wire reporting here — that is `kiwi-e2e-tests-reporting`.
+errors. Do not re-wire reporting here — that is `kiwi-setup-e2e-reporting`.
 
 Native config:
-[reporters-config.md](../kiwi-e2e-tests-reporting/references/reporters-config.md).
+[reporters-config.md](../kiwi-setup-e2e-reporting/references/reporters-config.md).
 Pipe flags:
-[pipe-cli.md](../kiwi-e2e-tests-reporting/references/pipe-cli.md).
+[pipe-cli.md](../kiwi-setup-e2e-reporting/references/pipe-cli.md).
 Do not invent flags — `kiwi-tcms-pipe --help`.
 
 ## Preconditions
@@ -49,4 +49,4 @@ Do not invent flags — `kiwi-tcms-pipe --help`.
 
 ## Related
 
-`kiwi-e2e-tests-reporting` (install/wire), `kiwi-run-triage` (classify failures).
+`kiwi-setup-e2e-reporting` (install/wire), `kiwi-run-triage` (classify failures).

@@ -12,4 +12,4 @@ How to find automated tests and attach Kiwi case ids. Prefer the project's exist
 | pytest | `test_*.py`, `pytest.ini` | title / node id `C412` → JUnit pipe |
 | JUnit / TestNG | `*Test.java` | test name `C412` → JUnit pipe |
 
-Non-JS/TS stacks report through `kiwi-tcms-pipe` and JUnit XML — see [pipe-cli.md](../../kiwi-e2e-tests-reporting/references/pipe-cli.md).
+Non-JS/TS stacks report through `kiwi-tcms-pipe` and JUnit XML — see [pipe-cli.md](../../kiwi-setup-e2e-reporting/references/pipe-cli.md).

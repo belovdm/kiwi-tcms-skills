@@ -29,7 +29,7 @@ scan → design → refine → dedupe → coverage → sync → report → triag
 | dedupe | `kiwi-detect-duplicate-test-cases` | duplicates disabled before sync |
 | coverage | `kiwi-test-code-coverage` | `coverage.tests.yml` code ↔ tests ↔ cases |
 | sync | `kiwi-sync-test-cases` | local markdown ↔ Kiwi |
-| report | `kiwi-run-tests-with-reporter` / `kiwi-e2e-tests-reporting` | results in a run |
+| report | `kiwi-run-tests-with-reporter` / `kiwi-setup-e2e-reporting` | results in a run |
 | triage | `kiwi-run-triage` | failures classified |
 
 Skip scan when the inventory is fresh. Skip any step whose input is missing (`skipped: coverage — no source access`).

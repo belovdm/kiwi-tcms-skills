@@ -49,4 +49,4 @@ gaps:
 
 ## Next
 
-`kiwi-e2e-tests-reporting`, `kiwi-test-code-coverage`, `kiwi-split-testing-levels-pyramid`, `kiwi-qa-lead-strategy-advisor`.
+`kiwi-setup-e2e-reporting`, `kiwi-test-code-coverage`, `kiwi-split-testing-levels-pyramid`, `kiwi-qa-lead-strategy-advisor`.

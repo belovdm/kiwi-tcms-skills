@@ -12,15 +12,15 @@ description: >
 Make the suite run itself in CI, stably, with a visible result: each job is a
 Kiwi run with statuses and errors.
 
-Reporting setup: `kiwi-e2e-tests-reporting`. Send step:
-[pipe-cli.md](../kiwi-e2e-tests-reporting/references/pipe-cli.md).
+Reporting setup: `kiwi-setup-e2e-reporting`. Send step:
+[pipe-cli.md](../kiwi-setup-e2e-reporting/references/pipe-cli.md).
 Do not invent flags — `kiwi-tcms-pipe --help`.
 
 ## Preconditions
 
 - Tests run locally and are green.
 - `KIWI_URL`, `KIWI_USERNAME`, `KIWI_PASSWORD`, `KIWI_PROJECT` will live in the CI secret store.
-- Reporting is wired (`kiwi-e2e-tests-reporting`).
+- Reporting is wired (`kiwi-setup-e2e-reporting`).
 
 ## Workflow
 
@@ -52,5 +52,5 @@ Do not invent flags — `kiwi-tcms-pipe --help`.
 
 ## Related
 
-`kiwi-e2e-tests-reporting` (reporter/pipe), `kiwi-setup-change-aware-testing`
+`kiwi-setup-e2e-reporting` (reporter/pipe), `kiwi-setup-change-aware-testing`
 (PR impact), `kiwi-run-triage` (failed jobs).

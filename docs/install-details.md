@@ -121,7 +121,7 @@ powershell -File ./scripts/link-agent-skills.ps1    # каталоги аген�
 
 | Плагин | Скиллы |
 | --- | --- |
-| `test-management` | `kiwi-mcp-usage`, `kiwi-sync-test-cases`, `kiwi-write-test-cases`, `kiwi-improve-test-cases`, `kiwi-detect-duplicate-test-cases`, `kiwi-split-testing-levels-pyramid`, `kiwi-test-code-coverage`, `kiwi-scan-automation-project`, `kiwi-requirement-reviewer`, `kiwi-pr-requirements-analyzer`, `kiwi-pr-diff-analyzer`, `kiwi-qa-thinking`, `kiwi-e2e-tests-reporting`, `kiwi-sprint-report` |
+| `test-management` | `kiwi-mcp-usage`, `kiwi-sync-test-cases`, `kiwi-write-test-cases`, `kiwi-improve-test-cases`, `kiwi-detect-duplicate-test-cases`, `kiwi-split-testing-levels-pyramid`, `kiwi-test-code-coverage`, `kiwi-scan-automation-project`, `kiwi-requirement-reviewer`, `kiwi-pr-requirements-analyzer`, `kiwi-pr-diff-analyzer`, `kiwi-qa-thinking`, `kiwi-setup-e2e-reporting`, `kiwi-sprint-report` |
 | `qa-process` | `kiwi-qa-lead-strategy-advisor`, `kiwi-qa-thinking`, `kiwi-split-testing-levels-pyramid`, `kiwi-testing-workflow` |
 | `test-automation` | `kiwi-automate-manual-cases`, `kiwi-debug-failed-flaky-autotests`, `kiwi-automation-consolidation`, `kiwi-data-seeder`, `kiwi-run-tests-with-reporter`, `kiwi-setup-ci-automation`, `kiwi-setup-change-aware-testing`, `kiwi-allure-adapter`, `kiwi-run-triage` |
 | `kiwi-explore` | `kiwi-explore-setup`, `kiwi-explore-fundamentals`, `kiwi-explore-plan` |

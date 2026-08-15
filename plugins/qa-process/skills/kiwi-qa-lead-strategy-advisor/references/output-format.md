@@ -53,7 +53,7 @@ Optimize for **scanning**: each item and the next action should be clear in a 3-
 
   🔍 **Found:** 340 cases, automation 9%, no pass-rate — pipe is not connected.
   🎯 **Goal:** every CI run lands as a Kiwi test run with a visible pass-rate.
-  ▶ **Action:** wire the reporter pipe → `kiwi-e2e-tests-reporting`
+  ▶ **Action:** wire the reporter pipe → `kiwi-setup-e2e-reporting`
 
 --------------------------------------------------
 
