@@ -35,12 +35,21 @@ References:
 
 - **Always generate a checklist before test cases**, even if the user asked for cases.
 - **Do not skip gates.** Confirm after sources, readiness, scope, role (unless smoke), and checklist.
+- **Smoke shortcut:** if the user names one tiny case and a target plan, or
+  says to proceed (`обязательно` / continue anyway), treat that as
+  confirmation of readiness, smoke scope, and the single checklist leaf.
+  Still write the requirement + checklist + local case, then create.
 - **❌ Not ready blocks the checklist** until the blocking questions are answered or the user explicitly chooses to proceed with partial coverage.
 - **Do not create cases without a confirmed plan and a reviewed case list.**
+  A disposable / skill-pass plan the user named is a confirmed plan — do not
+  attach the smoke case to the product core plan.
 - Do not modify the user's source code.
 - No `TC-<id>` on first write — identity is in [kiwi-case-format.md](../kiwi-sync-test-cases/references/kiwi-case-format.md#identity).
 - Priorities and categories come from `kiwi_list_priorities` / `kiwi_list_categories`. Never invent names.
-- Search before create: `kiwi_search_cases(query: <summary>)`. On a hit, offer to attach — do not clone.
+- Search before create: `kiwi_search_cases(query: <summary>)`. The query
+  matches **summary only**, not case `text`. Search a few summary phrases;
+  do not treat a body-word miss as “no overlap”. On a hit, offer to attach
+  — do not clone.
 - Paths: [project-layout.md](../kiwi-scan-automation-project/references/project-layout.md). Requirements → `docs/requirements/{topic}.md`. Local cases → `docs/cases/{slug}.md`.
 - **Case content is Russian** — summary, steps, expected results, and the
   section headings (`Подготовка` / `Шаги` / `Ожидаемый результат`). See

@@ -4,8 +4,12 @@ CLI in `@kiwi-tcms-ai/kiwi-tcms-reporter`. Reads JUnit XML or JSON and updates
 TestExecutions. Use when the project is not Playwright / Jest / Mocha, or when
 CI already emits JUnit.
 
+`kiwi-tcms-pipe --help` exits 0 with **empty stdout** — do not rely on it for
+flags, use the table below. `npx kiwi-tcms-pipe` also fails ("not on PATH")
+unless the package's bin is linked; run it via the local install instead:
+
 ```bash
-kiwi-tcms-pipe --help
+node node_modules/@kiwi-tcms-ai/kiwi-tcms-reporter/dist/pipe.js --plan 12 --build "$CI_COMMIT_TAG" --results junit.xml
 ```
 
 ## Typical CI

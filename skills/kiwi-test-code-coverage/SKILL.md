@@ -20,7 +20,15 @@ Do not paste the schema here.
 1. Inventory. Prefer `kiwi-scan-automation-project`. Walk test files; note which sources they import or call (static analysis).
 2. Tests → cases. Match `C<id>` / `TC-<id>` / `KIWI:<id>` / `[C<id>]` via `kiwi_search_cases`. Unmatched tests go in the report.
 3. Write `coverage.tests.yml` at the repo root ([project-layout.md](../kiwi-scan-automation-project/references/project-layout.md)). **`tests: []` is a hole — keep the key.**
-4. Validate. **Never Python.** Never invent a parser:
+4. Validate. **Never Python.** Never invent a parser (the script loads YAML
+   through `js-yaml`). File argument works on Windows PowerShell (no stdin
+   pipe required):
+
+```bash
+node <path-to-this-skill>/scripts/check-coverage.mjs coverage.tests.yml
+```
+
+Legacy (POSIX / JSON on stdin) still works:
 
 ```bash
 npx js-yaml coverage.tests.yml | node <path-to-this-skill>/scripts/check-coverage.mjs

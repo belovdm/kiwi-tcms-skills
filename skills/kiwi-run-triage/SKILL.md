@@ -36,14 +36,22 @@ has a note, then a team summary.
      | Test bug | Stale locator/assertion, rotten data | BLOCKED, comment “fix the test”, tag `test-issue` |
      | Environment | Network errors, downed services | BLOCKED, comment with the signal, offer a rerun |
      | Flaky | Same test is stable in other runs | Comment “rerun”, check case history |
+     | Exploratory finding | `[exp]` case, actual behavior looks wrong but there is no formal spec to contradict | FAILED, conclusion comment describing the observed behavior; no bug required to stay FAILED |
 
 4. Write the decision.
    - `kiwi_update_execution(execution_id, status, comment: "<conclusion>")`.
    - Ticket → `kiwi_execution_add_link(execution_id, name: "JIRA-148", url, is_defect: true)`
      for product bugs (`is_defect: true` marks it as a defect link, not just a
      reference); omit `is_defect` for CI/report links.
+   - **No tracker configured** (no `.kiwi-sources.yml`, no ticket system named):
+     skip `kiwi_execution_add_link`, say so in the comment ("no defect URL —
+     no tracker configured") and in the report. Do not invent a ticket URL.
+     A product-bug or exploratory-finding execution can stay FAILED without
+     a link — the report below is what surfaces it.
 5. Report. Totals (all / failed / reviewed); groups by class; top-3 risky
-   areas; leftover work (rerun N, file bugs for M).
+   areas; leftover work (rerun N, file bugs for M). Count product-bug and
+   exploratory-finding FAILED executions here even when they have no bug
+   link — a defect without a tracker is still a defect, not a zero.
 
 ## Rules
 

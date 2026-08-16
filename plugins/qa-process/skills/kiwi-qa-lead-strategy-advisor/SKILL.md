@@ -18,6 +18,13 @@ Roadmap layout: [output-format.md](references/output-format.md).
 
 ## 1 — Discover
 
+0. **Batch / no-interview trigger** — the user says run all skills, batch
+   audit, or otherwise makes clear this must finish without a pause: skip
+   straight to §2 Live Kiwi metrics, build the roadmap from `kiwi-scan-automation-project`
+   + Kiwi facts alone, and label every section that would have come from the
+   interview **"unconfirmed — no interview run"**. Do not fabricate answers
+   to the interview topics below. Say in the output what a real interview
+   would refine (pain, ownership, goal).
 1. Scan the repo with `kiwi-scan-automation-project`.
 2. Interview in rounds. Do not dump the whole list at once.
    - Use `AskUserQuestion` when the agent has it. 3–5 questions per round, then wait.

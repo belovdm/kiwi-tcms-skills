@@ -15,10 +15,13 @@ Needs `kiwi-explore-setup` (`.kiwi-explore.yml` + `plan_id`) and a charter from 
 ## Workflow
 
 1. **Start.** Container case: `kiwi_create_case(summary: "[exp] Session <charter>", plan, tags: "exploratory,exp-…")`. Keep its id.
-2. **Walk the charter.** Drive the Playwright MCP browser agent configured in
-   `kiwi-explore-setup` (`browser_navigate`, `browser_click`, `browser_snapshot`,
-   …) through the mission / personas. At each step: what the oracles checked,
-   what turned up.
+2. **Walk the charter.** Drive the browser MCP from `kiwi-explore-setup`
+   (Playwright MCP `browser_navigate` / `browser_click` / `browser_snapshot`,
+   or browsermcp / chrome-devtools equivalents) through the mission / personas.
+   If that MCP is disconnected (browsermcp: user must click Connect), say so
+   once, then fall back to `@playwright/test` / a headed or headless script
+   against `app.base_url` or `live_url` inside `allowed_hosts`. At each step:
+   what the oracles checked, what turned up.
 3. **Record immediately**, not at the end:
    - behavior worth covering → `kiwi_create_case(summary: "[exp] …", plan, tags: exp-…)`;
    - probable bug → execution + `kiwi_execution_add_link` (tracker URL) + repro in `kiwi_update_execution`;

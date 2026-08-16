@@ -18,9 +18,14 @@ MCP health: [mcp-setup.md](../kiwi-mcp-usage/references/mcp-setup.md).
 Priority:
 
 1. Plan name or id — `kiwi_list_plans(query: <sprint/release>)`.
-2. Run name or id — `kiwi_list_runs(query: …)` / `kiwi_list_runs(plan: …)`.
-3. Date range the user gave.
-4. Nothing given — ask for the plan, run, or dates.
+2. Product name (`KIWI_PROJECT`) — all plans of that product.
+3. Run name or id — `kiwi_list_runs(query: …)` / `kiwi_list_runs(plan: …)`.
+4. Date range the user gave.
+5. Nothing given — ask for the product, plan, run, or dates.
+
+Do not call `kiwi_search_cases` with only `product` or only `automated`
+(client injects `product` into TestCase.filter and this Kiwi rejects it).
+Search per `plan`.
 
 A title like "Sprint 24" is not an id. Resolve to plan/run ids first.
 

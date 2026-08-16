@@ -40,7 +40,11 @@ other is meant.
 
 ## Limits
 
-- Every list/filter returns `{ total, shown, rows }`.
+- Most list/filter tools return `{ total, shown, rows }`. Exceptions that
+  return a **bare array**: `kiwi_list_priorities`, `kiwi_run_get_cases`,
+  `kiwi_plan_tree`, `kiwi_case_list_attachments` / `kiwi_plan_list_attachments`
+  / `kiwi_run_list_attachments`. Check `Array.isArray(result)` before
+  reading `.rows`.
 - Default page is `KIWI_DEFAULT_LIMIT` (20). Max **200** per call.
 - Narrow with `plan`, `status`, `query`. Do not page through the whole product.
 - Case text is long — `kiwi_get_case` only when you need steps. Lists use `kiwi_search_cases`.
@@ -52,6 +56,8 @@ other is meant.
 | Auth failed 401/403 | bad username/password | check `KIWI_USERNAME` / `KIWI_PASSWORD` |
 | HTTP 404 … `/json-rpc/` | bad `KIWI_URL` | instance base URL, no path |
 | `… not found (…filter)` | name/id does not exist | take a real value from the catalog |
+| `Cannot resolve keyword 'product'` on `Build.filter` / `TestCase.filter` | old client injected `product`; those models have no such field | upgrade kiwi-tcms-client (uses `version__product` / `category__product`); or `kiwi_rpc` with those lookups |
+| `Select a valid choice` on `kiwi_create_run` `build` | build exists on another **Version** than the plan's `product_version` | `kiwi_list_builds` + plan's version; create/use a build on that version |
 | Timeout | slow server or network | raise `KIWI_TIMEOUT` |
 | `PermissionDenied` | user lacks rights | fix rights in Kiwi; do not bypass |
 
@@ -78,15 +84,31 @@ Positional params = array. Named params = object. Same as Kiwi JSON-RPC.
 - `category` is required by Kiwi when creating a case — if you omit it, the
   server silently defaults to the product's first category. Pass one
   explicitly whenever the category matters.
-- `kiwi_create_plan`'s `type` defaults to `Functional` when omitted. Custom
-  types (e.g. `Exploratory`) do not exist until created —
-  `kiwi_list_plan_types` first, `kiwi_create_plan_type` if missing, only then
-  `kiwi_create_plan`. Do not invent a type name that isn't there.
+- `kiwi_create_plan`'s `type` defaults to `Functional`. The client also
+  tries stock **`Function`** if `Functional` is missing. Custom types (e.g.
+  `Exploratory`) still need `kiwi_create_plan_type` first.
+- Build is scoped via `version__product`, TestCase via `category__product`
+  or `plan`. Do not send `product` to `Build.filter` / `TestCase.filter`.
+- `kiwi_create_case` schema text says default priority `Medium`. This
+  instance's catalog is `P1`…`P5` only — pass an explicit `P*`.
 - `kiwi_create_plan`'s `text` is the plan document (Kiwi UI: "Документ плана
   тестирования") — scope, environment, entry/exit criteria. Set it at create
   time; `kiwi_update_plan(id, text)` also works after the fact.
-- `kiwi_create_run` requires `build` (name or id, looked up on the plan's
-  product); `manager` defaults to the logged-in user when omitted.
+- `kiwi_create_run` requires `build` (name or id). The client looks the name
+  up on the product, but Kiwi then accepts only builds whose Version equals
+  the plan's `product_version`. `kiwi_create_plan` defaults to the first
+  version (often `unspecified`); a build created with `version: 1.0` is
+  rejected (`Select a valid choice`). Create the build on that same version,
+  or pass a build id that already belongs to it. `manager` defaults to the
+  logged-in user (`User.filter` without a query) when omitted.
+- `kiwi_search_cases(query)` matches **summary only**, not `text`. A miss
+  on a body word is not “no case exists”.
+- `kiwi_case_add_tag` / `kiwi_plan_add_tag` / `kiwi_*_add_attachment` /
+  `kiwi_case_remove_tag` often return JSON `null` on success. Confirm with
+  `kiwi_*_list_attachments`, `kiwi_search_cases(tag)`, or
+  `kiwi_rpc Tag.filter`. `kiwi_run_add_tag` returns the tag object.
+- `kiwi_plan_tree` `url` may be `https://localhost/plan/<id>` (Django site
+  host), not `KIWI_URL`. Use `{KIWI_URL}/plan/{id}/` in reports.
 
 ## Rules
 

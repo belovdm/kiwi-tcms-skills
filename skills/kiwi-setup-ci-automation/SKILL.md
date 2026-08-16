@@ -14,7 +14,8 @@ Kiwi run with statuses and errors.
 
 Reporting setup: `kiwi-setup-e2e-reporting`. Send step:
 [pipe-cli.md](../kiwi-setup-e2e-reporting/references/pipe-cli.md).
-Do not invent flags — `kiwi-tcms-pipe --help`.
+Do not invent flags — the flag table there is the source of truth
+(`kiwi-tcms-pipe --help` prints nothing, do not rely on it).
 
 ## Preconditions
 
@@ -36,13 +37,22 @@ Do not invent flags — `kiwi-tcms-pipe --help`.
    step if the native reporter already wrote the run). `kiwi-tcms-pipe` is a
    Node CLI — a Python/pytest job needs a Node setup step too, even if the
    rest of the job is pure Python.
+   **One reporter config = one plan.** If the repo has more than one Kiwi
+   plan, do not point a single test invocation + single `KIWI_PLAN` /
+   `--plan` at all spec files — that attaches every plan's cases to one run.
+   Split by plan: either separate test-runner projects/directories per plan,
+   or separate CI jobs/steps, each with its own `--plan` (or `KIWI_PLAN`) and
+   its own matching spec set.
 4. Stability. Shard the suite. Retry only marked flakes, with a cap.
    Job timeout. Cache deps. Isolate data (`kiwi-data-seeder`).
 5. Kiwi. `build` = tag or commit. Check `kiwi_run_status`. Notify chat:
    run link + pass-rate.
 6. Failures. Alert. Triage with `kiwi-run-triage`. Recurring flakes →
    `kiwi-debug-failed-flaky-autotests`.
-7. Deliver CI config on a branch. Do not push to the default branch.
+7. Update `automation-inventory.yml` (`kiwi-scan-automation-project`): set
+   `ci.provider` and `ci.test_jobs` to what you just wired, drop any `gaps`
+   entry it closes (e.g. "no CI job yet"). Skip only if that file doesn't exist.
+8. Deliver CI config on a branch. Do not push to the default branch.
 
 ## Rules
 

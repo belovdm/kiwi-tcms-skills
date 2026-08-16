@@ -58,11 +58,14 @@ guardrails:
 In order. Stop at the first failure, fix, continue. Full tree: [verification-ladder.md](references/verification-ladder.md).
 
 1. `kiwi_ping` and a real `plan_id`.
-2. `curl` `base_url`. Auth wall → credentials in env, then continue.
-3. Browser-agent smoke via the **Playwright MCP** server (`browser_navigate`,
-   `browser_click`, `browser_snapshot`; the chrome-devtools MCP server's
-   equivalent tools work too if that's what's installed instead): open, sign
-   in, three clicks. Write nothing to Kiwi.
+2. `curl` `base_url`. If it is down and `live_url` is set and listed in
+   `allowed_hosts`, continue on `live_url`. Auth wall → credentials in env,
+   then continue.
+3. Browser-agent smoke via whichever browser MCP is connected (Playwright
+   MCP `browser_navigate` / `browser_click` / `browser_snapshot`, browsermcp,
+   or chrome-devtools). browsermcp needs a manual Connect click — if it
+   fails, use a local Playwright script against `base_url`/`live_url`. Open,
+   sign in, three clicks. Write nothing to Kiwi.
 4. Trial `kiwi_create_case` with `[exp]` + tags. Confirm plan and tags stuck.
 5. Guardrails present: `allowed_hosts`, `forbidden_actions`, default timebox 25 min.
 

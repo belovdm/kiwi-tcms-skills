@@ -28,7 +28,10 @@ Layout of produced artifacts: [project-layout.md](./references/project-layout.md
 
 ## Write `automation-inventory.yml`
 
-Repo root. Refresh on large stack changes.
+Repo root. Refresh on large stack changes — a CI job added by
+`kiwi-setup-ci-automation` counts: set `ci.provider` and `ci.test_jobs`, and
+drop any `gaps` entry it just closed (e.g. "no CI job yet"). Do not leave the
+inventory claiming a gap that a just-finished skill already fixed.
 
 ```yaml
 version: 1

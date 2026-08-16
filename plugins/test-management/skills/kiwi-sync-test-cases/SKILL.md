@@ -50,5 +50,8 @@ Identity: `TC-<id>` → exact `summary` → `summary__icontains` only when a sin
 Both sides changed: default is to ask. User may say prefer-local or prefer-Kiwi.
 
 **Never delete Kiwi cases.** A case missing locally appears in the report only.
+`[exp]` / exploratory cases (from `kiwi-explore-fundamentals`) are expected
+to be Kiwi-only — they document a session, not a repo feature. Report them
+as Kiwi-only, do not pull them into `docs/cases/` unless the user asks.
 
 **Confirm the mutation summary** before create/update (unless the user said to sync without asking).
