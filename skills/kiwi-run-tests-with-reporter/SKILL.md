@@ -20,7 +20,7 @@ Do not invent flags — `kiwi-tcms-pipe --help`.
 
 ## Preconditions
 
-- `kiwi_ping` → `ok`. Env: `KIWI_URL`, `KIWI_USERNAME`, `KIWI_PASSWORD`, `KIWI_PROJECT`.
+- Env: `KIWI_URL`, `KIWI_USERNAME`, `KIWI_PASSWORD`, `KIWI_PROJECT`.
 - Tests are tagged (`C<id>` / `KIWI:<id>`). Spot-check a few. For pytest the
   marker lives in the docstring, not the function name — see
   [pytest-tests.md](../kiwi-setup-e2e-reporting/references/pytest-tests.md).

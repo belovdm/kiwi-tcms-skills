@@ -15,7 +15,6 @@ Ensure the product is usable by people with disabilities. Test against WCAG 2.1/
 
 - Target environment: staging or production-like (never test a11y on localhost-only).
 - Tools available: axe-core, Pa11y, WAVE, Lighthouse, or screen readers (NVDA, VoiceOver, JAWS).
-- `kiwi_ping` → `ok` if linking to Kiwi cases.
 - Scope defined: pages, components, or user flows.
 
 ## WCAG Principles (POUR)

@@ -1,42 +1,58 @@
 ---
 name: kiwi-mcp-usage
 description: >
-  Operate kiwi-tcms-mcp — call order, names vs ids, limits, errors, and kiwi_rpc.
-  Use when calling kiwi_* tools, connecting the MCP, or when kiwi tools fail
-  (handshake, 401, 404, timeout, PermissionDenied).
+  Use when calling kiwi_* tools, connecting kiwi-tcms-mcp, or when kiwi tools
+  fail (handshake, 401, 404, timeout, PermissionDenied, not found, names vs ids).
 ---
 
 # kiwi-tcms-mcp Handbook
 
-Call kiwi_* tools in a stable order. Prefer names the server can resolve. Use `kiwi_rpc` only when no dedicated tool exists.
+Prefer names the server can resolve. Catalogs and ids are **per instance** —
+do not reuse values from this skill, another project, or memory. Use
+`kiwi_rpc` only when no dedicated tool exists.
 
 Install, env, agent config, health-check: [mcp-setup.md](references/mcp-setup.md).
 
 ## Entity model
 
-Product → TestPlan (has a PlanType, e.g. Functional/Acceptance/Regression) →
-TestCase (status CONFIRMED/PROPOSED, category, priority, `is_automated`) →
-TestRun (scoped to one plan, has a Build) → TestExecution (one case run inside
-one run; status IDLE/RUNNING/PASSED/FAILED/BLOCKED/ERROR). A TestCase's own
-status (CONFIRMED/PROPOSED) and a TestExecution's status (PASSED/FAILED/…)
-are two different fields on two different entities — never set one where the
-other is meant.
+Product → TestPlan (has a PlanType) → TestCase (case status, category,
+priority, `is_automated`) → TestRun (one plan, one Build) → TestExecution
+(one case inside one run; execution status).
 
-## Call order
+A TestCase's status and a TestExecution's status are two different fields on
+two different entities — never set one where the other is meant.
 
-1. `kiwi_ping` — server alive, which product (`KIWI_PROJECT` → Product).
-2. Catalogs when you need names/ids: `kiwi_list_priorities`, `kiwi_list_categories`, `kiwi_list_builds`, `kiwi_list_components`.
-3. Search: `kiwi_list_plans` / `kiwi_search_cases` / `kiwi_list_runs` / `kiwi_list_executions`.
-4. Details: `kiwi_get_case(id)`, `kiwi_run_status(run_id)`.
-5. Mutations: `kiwi_create_case` / `kiwi_create_plan` / `kiwi_create_run`, `kiwi_update_case`, `kiwi_update_execution`, `kiwi_run_add_case`.
-6. Anything missing → `kiwi_rpc(method, params)`.
+## How to call
+
+Start with the tool that does the job. **Do not open with `kiwi_ping`.**
+
+1. Search / list: `kiwi_list_plans` / `kiwi_search_cases` / `kiwi_list_runs` /
+   `kiwi_list_executions`.
+2. Details: `kiwi_get_case(id)`, `kiwi_run_status(run_id)`.
+3. Catalogs **when writing a name you have not listed this session**:
+   `kiwi_list_priorities`, `kiwi_list_categories`, `kiwi_list_plan_types`,
+   `kiwi_list_builds`, `kiwi_list_components`, `kiwi_list_case_statuses`,
+   `kiwi_list_execution_statuses`.
+4. Mutations: `kiwi_create_case` / `kiwi_create_plan` / `kiwi_create_run`,
+   `kiwi_update_case`, `kiwi_update_execution`, `kiwi_run_add_case`.
+5. Anything missing → `kiwi_rpc(method, params)`.
+
+`kiwi_ping` is diagnostics only (setup, handshake, 401/404/timeout, "is Kiwi
+up?"). A successful list or mutation already proves the server is up.
 
 ## Names vs ids
 
-- By name (server resolves the id): priority (`P1`…`P5` / `Medium`), category, plan type, build, user login.
-- By name, but two different fields: case status (`CONFIRMED` / `PROPOSED`) via `kiwi_update_case(status)`, execution status (`PASSED` / `FAILED` / `BLOCKED` / …) via `kiwi_update_execution(status)`. Do not pass one to the other's `status`.
-- By id: plan, case, run, execution, `status_id` when the name is ambiguous, `build_id`.
+- **By name** (server resolves): priority, category, plan type, build, user
+  login, case status, execution status. Pass a value that exists **here**.
+- Case status → `kiwi_update_case(status)`. Execution status →
+  `kiwi_update_execution(status)`. Do not pass one catalog to the other.
+- **By id**: plan, case, run, execution. Use `status_id` / `build_id` only
+  when the name is ambiguous.
 - Names are case-insensitive. Execution status is resolved in the run's context.
+- If the user or this session already has an id or name, use it. On
+  `not found`, list that catalog / entity and pick a real row. Do not invent
+  ids. Do not fall back to stock labels from another instance (`P1`…`P5`,
+  `Medium`, `Functional`, `CONFIRMED`, `PASSED`, …).
 
 ## Limits
 
@@ -55,7 +71,7 @@ other is meant.
 | --- | --- | --- |
 | Auth failed 401/403 | bad username/password | check `KIWI_USERNAME` / `KIWI_PASSWORD` |
 | HTTP 404 … `/json-rpc/` | bad `KIWI_URL` | instance base URL, no path |
-| `… not found (…filter)` | name/id does not exist | take a real value from the catalog |
+| `… not found (…filter)` | name/id does not exist here | list the catalog / entity; take a real value |
 | `Cannot resolve keyword 'product'` on `Build.filter` / `TestCase.filter` | old client injected `product`; those models have no such field | upgrade kiwi-tcms-client (uses `version__product` / `category__product`); or `kiwi_rpc` with those lookups |
 | `Select a valid choice` on `kiwi_create_run` `build` | build exists on another **Version** than the plan's `product_version` | `kiwi_list_builds` + plan's version; create/use a build on that version |
 | Timeout | slow server or network | raise `KIWI_TIMEOUT` |
@@ -82,24 +98,24 @@ Positional params = array. Named params = object. Same as Kiwi JSON-RPC.
 - `automated` on `kiwi_search_cases`/`kiwi_create_case`/`kiwi_update_case` is
   the case's `is_automated` flag, not a plan/run property.
 - `category` is required by Kiwi when creating a case — if you omit it, the
-  server silently defaults to the product's first category. Pass one
-  explicitly whenever the category matters.
-- `kiwi_create_plan`'s `type` defaults to `Functional`. The client also
-  tries stock **`Function`** if `Functional` is missing. Custom types (e.g.
-  `Exploratory`) still need `kiwi_create_plan_type` first.
+  server silently defaults to the product's first category. Pass one from
+  `kiwi_list_categories` whenever the category matters.
+- `kiwi_create_plan`'s `type` defaults to `Functional`; the client also tries
+  `Function`. Either name may be missing. List `kiwi_list_plan_types` and
+  pass one that exists, or `kiwi_create_plan_type` first.
 - Build is scoped via `version__product`, TestCase via `category__product`
   or `plan`. Do not send `product` to `Build.filter` / `TestCase.filter`.
-- `kiwi_create_case` schema text says default priority `Medium`. This
-  instance's catalog is `P1`…`P5` only — pass an explicit `P*`.
+- `kiwi_create_case` schema mentions default priority `Medium`. That value
+  may not exist. List `kiwi_list_priorities` and pass one that does.
 - `kiwi_create_plan`'s `text` is the plan document (Kiwi UI: "Документ плана
   тестирования") — scope, environment, entry/exit criteria. Set it at create
   time; `kiwi_update_plan(id, text)` also works after the fact.
 - `kiwi_create_run` requires `build` (name or id). The client looks the name
   up on the product, but Kiwi then accepts only builds whose Version equals
   the plan's `product_version`. `kiwi_create_plan` defaults to the first
-  version (often `unspecified`); a build created with `version: 1.0` is
-  rejected (`Select a valid choice`). Create the build on that same version,
-  or pass a build id that already belongs to it. `manager` defaults to the
+  version on the product; a build on another version is rejected
+  (`Select a valid choice`). Create the build on that same version, or pass
+  a build id that already belongs to it. `manager` defaults to the
   logged-in user (`User.filter` without a query) when omitted.
 - `kiwi_search_cases(query)` matches **summary only**, not `text`. A miss
   on a body word is not “no case exists”.
@@ -112,15 +128,18 @@ Positional params = array. Named params = object. Same as Kiwi JSON-RPC.
 
 ## Rules
 
-- **Ping first** on a new session or after errors.
-- Resolve the exact id via filter before any mutation. Do not guess from memory.
 - Confirm bulk work (e.g. add 50 cases to a run) with a summary first.
 - A read/filter error may be retried. A mutation error — learn what already landed first.
 
 ## Example
 
-> Mark execution 3021 failed and link JIRA-148.
+> Mark the failing checkout execution as failed and link the bug the user named.
 
-1. `kiwi_update_execution(execution_id: 3021, status: "FAILED", comment: "Gateway timeout on step 3")` — status by name.
-2. `kiwi_execution_add_link(execution_id: 3021, name: "JIRA-148", url: "https://jira.example.com/browse/JIRA-148", is_defect: true)`.
-3. On 401/403 check `KIWI_USERNAME` / `KIWI_PASSWORD`. On "not found" take the id from `kiwi_list_executions`.
+1. `kiwi_list_executions` (run / case / status) → take `execution_id` from rows.
+2. Pass a failed-status **name from this instance** to
+   `kiwi_update_execution(execution_id, status, comment)`. List
+   `kiwi_list_execution_statuses` only if you do not already have one.
+3. `kiwi_execution_add_link(execution_id, name, url, is_defect: true)` with
+   the tracker id/url the user gave.
+4. On 401/403 check credentials. On `not found` re-list; do not reuse an id
+   from another session or this skill.

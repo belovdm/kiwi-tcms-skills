@@ -25,7 +25,7 @@ References:
 
 ## Prerequisites
 
-- `kiwi_ping` → `ok`. `KIWI_PROJECT` is set.
+- `KIWI_PROJECT` is set.
 - A requirement source: pasted text, a ticket/wiki reference to fetch (see
   [external-sources.md](./references/external-sources.md)), spec, or feature
   description.
@@ -38,7 +38,7 @@ References:
 - **Smoke shortcut:** if the user names one tiny case and a target plan, or
   says to proceed (`обязательно` / continue anyway), treat that as
   confirmation of readiness, smoke scope, and the single checklist leaf.
-  Still write the requirement + checklist + local case, then create.
+  Still write the requirement + checklist + cache draft, then create.
 - **❌ Not ready blocks the checklist** until the blocking questions are answered or the user explicitly chooses to proceed with partial coverage.
 - **Do not create cases without a confirmed plan and a reviewed case list.**
   A disposable / skill-pass plan the user named is a confirmed plan — do not
@@ -50,7 +50,7 @@ References:
   matches **summary only**, not case `text`. Search a few summary phrases;
   do not treat a body-word miss as “no overlap”. On a hit, offer to attach
   — do not clone.
-- Paths: [project-layout.md](../kiwi-scan-automation-project/references/project-layout.md). Requirements → `docs/requirements/{topic}.md`. Local cases → `docs/cases/{slug}.md`.
+- Paths: [project-layout.md](../kiwi-scan-automation-project/references/project-layout.md). Requirements → `docs/requirements/{topic}.md`. Case drafts → `.kiwi-cache/cases/{slug}.md`.
 - **Case content is Russian** — summary, steps, expected results, and the
   section headings (`Подготовка` / `Шаги` / `Ожидаемый результат`). See
   [kiwi-case-format.md](../kiwi-sync-test-cases/references/kiwi-case-format.md).
@@ -116,7 +116,7 @@ If the user originally asked only for a checklist, stop here unless they ask for
 
 ### 6. Cases
 
-Write one file per case under `docs/cases/` in [kiwi-case-format.md](../kiwi-sync-test-cases/references/kiwi-case-format.md).
+Write one draft per case under `.kiwi-cache/cases/` in [kiwi-case-format.md](../kiwi-sync-test-cases/references/kiwi-case-format.md).
 Follow [writing-rule.md](./references/writing-rule.md).
 
 Show a review table: #, summary, priority, category. Let the user drop / merge / add.
@@ -135,10 +135,10 @@ If the requirement is thin, state that coverage is partial and list uncovered ar
 - For each reviewed case: `kiwi_search_cases(query: summary)` then
   `kiwi_create_case(summary, plan, category, priority, text, tags)` — `text`
   is the whole `## Подготовка` / `## Шаги` / `## Ожидаемый результат` block
-  from the local file, verbatim (Kiwi stores it as one Markdown field, no
+  from the draft file, verbatim (Kiwi stores it as one Markdown field, no
   section params).
 - Requirement file known → include `requirement: "docs/requirements/{topic}.md"` in the same `kiwi_create_case` call — a full URL if the repo has a known public remote (see [kiwi-case-format.md](../kiwi-sync-test-cases/references/kiwi-case-format.md#linking-to-a-public-repo)).
-- Write `TC-<id>` into the local heading after create.
+- Write `TC-<id>` into the draft heading after create. Do not commit the draft.
 
 ### 8. Summary
 

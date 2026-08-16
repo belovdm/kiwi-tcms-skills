@@ -21,7 +21,7 @@ If `.kiwi-explore.yml` already exists and a session has been recorded, stop and 
 
 ## 1 — Kiwi plan
 
-`kiwi_ping` → `ok`. `KIWI_PROJECT` set.
+`KIWI_PROJECT` is set.
 
 Choose or create a plan: `kiwi_list_plan_types` — if `Exploratory` is not
 in the list, `kiwi_create_plan_type(name: "Exploratory")` first, then
@@ -57,7 +57,7 @@ guardrails:
 
 In order. Stop at the first failure, fix, continue. Full tree: [verification-ladder.md](references/verification-ladder.md).
 
-1. `kiwi_ping` and a real `plan_id`.
+1. A real `plan_id` (ladder A–B).
 2. `curl` `base_url`. If it is down and `live_url` is set and listed in
    `allowed_hosts`, continue on `live_url`. Auth wall → credentials in env,
    then continue.

@@ -4,7 +4,8 @@ description: >
   Finds duplicate automated tests, merges similar specs, and parametrizes
   shared logic while keeping Kiwi C<id> / TC-<id> / KIWI:<id> links.
   Triggers: consolidate autotests, merge specs, parametrize suite, remove
-  duplicate tests, dead tests. Not for manual *.md (kiwi-detect-duplicate-test-cases).
+  duplicate tests, dead tests. Not for Kiwi manual cases
+  (kiwi-detect-duplicate-test-cases).
 ---
 
 # Automation test consolidation
@@ -13,13 +14,13 @@ Shrink the automated suite without dropping a scenario or a Kiwi case link.
 
 Behavioral similarity beats code similarity. **No edits without explicit approval.**
 
-Manual / `docs/cases/*.md` duplicates belong to `kiwi-detect-duplicate-test-cases`.
+Manual / Kiwi case duplicates belong to `kiwi-detect-duplicate-test-cases`.
 
 ## Scope
 
 Include: `*.test.*`, `*.spec.*`, `*_test.*`, `*.cy.*`, automated `*.feature`.
 
-Skip: fixtures and page objects unless they *are* the duplication; generated snapshots; manual `*.md`.
+Skip: fixtures and page objects unless they *are* the duplication; generated snapshots; requirement docs; cache drafts.
 
 ## Finding types
 
@@ -72,6 +73,6 @@ Per group: shared intent in one sentence, what is unique, what would be lost.
 - Merge tests that protect different invariants.
 - Weaken asserts to make two tests "the same".
 - Merge unit and e2e into one test.
-- Touch manual `*.md` or disable Kiwi cases.
+- Touch requirement docs, cache drafts, or disable Kiwi cases.
 - Drop a `C<id>` / `TC-<id>` / `KIWI:<id>` tag on merge — the reporter will lose the match ([reporters-config.md](../kiwi-setup-e2e-reporting/references/reporters-config.md)).
 - Leave a case with no test. Restore it via `kiwi-automate-manual-cases`.

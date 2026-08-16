@@ -22,7 +22,7 @@ Send results:
 ## Preconditions
 
 - `coverage.tests.yml` exists (`kiwi-test-code-coverage`). If not, build it first.
-- `kiwi_ping` → `ok`. Reporting/pipe is wired (`kiwi-setup-e2e-reporting`).
+- Reporting/pipe is wired (`kiwi-setup-e2e-reporting`).
 - Access to the PR diff (`base...head`).
 
 ## Workflow

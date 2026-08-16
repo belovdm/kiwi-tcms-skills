@@ -31,12 +31,11 @@ A title like "Sprint 24" is not an id. Resolve to plan/run ids first.
 
 ## Collect
 
-1. `kiwi_ping` → `ok`.
-2. `kiwi_list_plans` → plans in scope. Per plan: `kiwi_list_runs(plan)`.
-3. Per run: `kiwi_run_status(run_id)` — pass / fail / blocked / idle, failed cases.
-4. Defects: `kiwi_execution_get_links` on failed executions, or `kiwi_rpc` `Bug.filter`.
-5. Volume and automation: `kiwi_search_cases(plan: …)` and `kiwi_search_cases(automated: true)`.
-6. Optional cause split: reuse `kiwi-run-triage` classes (product / test / environment).
+1. `kiwi_list_plans` → plans in scope. Per plan: `kiwi_list_runs(plan)`.
+2. Per run: `kiwi_run_status(run_id)` — pass / fail / blocked / idle, failed cases.
+3. Defects: `kiwi_execution_get_links` on failed executions, or `kiwi_rpc` `Bug.filter`.
+4. Volume and automation: `kiwi_search_cases(plan: …)` and `kiwi_search_cases(automated: true)`.
+5. Optional cause split: reuse `kiwi-run-triage` classes (product / test / environment).
 
 ## Metrics
 

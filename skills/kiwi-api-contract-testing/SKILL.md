@@ -16,7 +16,6 @@ Ensure APIs adhere to their contracts and detect breaking changes before they re
 - API specification: OpenAPI/Swagger YAML/JSON, GraphQL schema, gRPC `.proto` files.
 - Access to API (staging/dev environment).
 - Tool selected: Schemathesis, Dredd, Pact, Spring Cloud Contract, or custom.
-- `kiwi_ping` → `ok` if linking to Kiwi cases.
 
 ## Contract Types
 

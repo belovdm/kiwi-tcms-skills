@@ -17,7 +17,7 @@ Where files go: [project-layout.md](../kiwi-scan-automation-project/references/p
 
 ## Select
 
-- `kiwi_ping` → `ok`. Plan or filter is known.
+- Plan or filter is known.
 - `kiwi_search_cases(plan, status: "CONFIRMED", automated: false)`.
 - Prefer P1/P2, stable setup, an observable oracle.
 - Skip one-off checks, visual-only judgment, cases with no oracle.

@@ -19,7 +19,7 @@ Do not invent flags — `kiwi-tcms-pipe --help`.
 ## Preconditions
 
 - `allure-results/*-result.json` exist.
-- `kiwi_ping` → `ok`. A `run` id, or `plan` + `build`.
+- A `run` id, or `plan` + `build`.
 - Cases are tagged in Allure (`tag: C<id>` / `KIWI:<id>`), `testCaseId`, or
   the name equals the case summary.
 

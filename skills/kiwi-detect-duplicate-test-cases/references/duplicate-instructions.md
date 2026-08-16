@@ -37,7 +37,7 @@ Step overlap ≥ 60% raises confidence on a near-title pair.
 | Deactivate | Redundant Kiwi case — `DISABLED` + comment pointing at `TC-<id>` |
 | Keep | Different purpose (environment, data, `level:*`) |
 
-**Never delete a Kiwi case.** Local files may be removed after approval.
+**Never delete a Kiwi case.** Cache drafts may be removed after approval.
 Cases with executions: comment the pointer to the keeper; do not silently `DISABLED`.
 
 ## Report template

@@ -4,7 +4,7 @@ Canonical tree for artifacts kiwi-skills produce. Keep an existing convention if
 
 ```
 docs/requirements/           gathered / reviewed requirements (committed)
-docs/cases/                  manual Kiwi cases (`*.md`), one file per case (committed)
+.kiwi-cache/cases/           session drafts of Kiwi cases (gitignored)
 .kiwi-cache/seed-data/       seed-data plans, one-off seed scripts (gitignored)
 .kiwi-cache/qa-strategy.md   QA maturity roadmap (gitignored)
 tests/                       generated automated tests
@@ -22,7 +22,7 @@ automation-inventory.yml     scan output
 | Artifact | Path | File name |
 | --- | --- | --- |
 | Requirements | `docs/requirements/` | `{topic}.md` (kebab-case) |
-| Manual case | `docs/cases/` | `{slug}.md` with `TC-<id>` once synced |
+| Case draft | `.kiwi-cache/cases/` | `{slug}.md` with `TC-<id>` after upload |
 | Seed-data plan | `.kiwi-cache/seed-data/` | `{feature}.md` (kebab-case) |
 | QA strategy roadmap | `.kiwi-cache/qa-strategy.md` | fixed name |
 | Autotest | `tests/` | project's existing spec suffix |
@@ -31,12 +31,14 @@ automation-inventory.yml     scan output
 | Coverage map | repo root | `coverage.tests.yml` |
 | Inventory | repo root | `automation-inventory.yml` |
 
-- `docs/requirements/` and `docs/cases/` are **committed**, not gitignored —
-  they are the project's documentation, not a cache. Only `.kiwi-cache/`
-  (scratch/derived artifacts) is gitignored.
+- `docs/requirements/` is **committed**. It is the project's requirement
+  documentation: gathered sources, review notes, and the coverage checklist.
+- Test cases live in **Kiwi TCMS**. Do not commit case markdown.
+- `.kiwi-cache/` (including `cases/`) is gitignored scratch. Drafts exist
+  while the agent writes, reviews, and uploads; they are not a second suite.
 - A requirement file may contain a `## Чеклист покрытия` section — the
   confirmed test-design checklist `kiwi-write-test-cases` persists there
-  before writing cases, so cases trace back to both the requirement and the
+  before drafting cases, so cases trace back to both the requirement and the
   checklist item they came from.
 - Cross-link a case to its requirement: put the requirement's path or URL in
   the case's **Requirement** field (Kiwi's `requirement` field —
@@ -49,7 +51,6 @@ automation-inventory.yml     scan output
   Same full-URL preference as Requirement.
 - Tag each automated test with `C<id>` / `TC-<id>` / `KIWI:<id>` / `[C<id>]` after the case exists in Kiwi.
 - Page objects and helpers live under `src/`, not in `tests/`.
-- Do not write produced cases to `.kiwi-cache/`.
 - `.kiwi-sources.yml` holds the project's known issue-tracker/wiki project
   or space, so a skill fetching a ticket/page by number doesn't have to ask
   every run — no credentials in it. Format and fetch flow:

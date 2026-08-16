@@ -36,12 +36,11 @@ pipe `kiwi-tcms-pipe`.
 
 Агент поднимает `kiwi-write-test-cases`:
 
-1. `kiwi_ping` → проект Payments.
-2. `kiwi_list_plans(query: "Платежи, спринт 24")` → план #31 (или создаёт).
-3. Гейты: источники → объём (smoke / balanced) → чек-лист → подтверждение.
-4. После ревизии списка — `kiwi_search_cases` (не плодить дубли) и
+1. `kiwi_list_plans(query: "Платежи, спринт 24")` → план #31 (или создаёт).
+2. Гейты: источники → объём (smoke / balanced) → чек-лист → подтверждение.
+3. После ревизии списка — `kiwi_search_cases` (не плодить дубли) и
    `kiwi_create_case` × N.
-5. В файлы `docs/cases/*.md` дописывается `TC-<id>`.
+4. Черновики в `.kiwi-cache/cases/` получают `TC-<id>`; в репозиторий не коммитятся.
 
 Отчёт: «создано 11 кейсов, план #31, пропущен 1 дубль».
 
@@ -58,7 +57,7 @@ pipe `kiwi-tcms-pipe`.
 | `kiwi-split-testing-levels-pyramid` | `qa-split-testing-levels-pyramid` | unit / integration / e2e / ручные + теги `level:*` |
 | `kiwi-improve-test-cases` | `improve-test-cases` | Оценка /10, правки через `kiwi_update_case` |
 | `kiwi-detect-duplicate-test-cases` | `detect-duplicate-test-cases` | Дубли; в Kiwi отключает, не удаляет |
-| `kiwi-sync-test-cases` | `sync-test-cases-with-tms` | Локальный Markdown ↔ Kiwi |
+| `kiwi-sync-test-cases` | `sync-test-cases-with-tms` | Черновики `.kiwi-cache/cases/` ↔ Kiwi (SoT — Kiwi) |
 | `kiwi-test-code-coverage` | `qa-test-code-coverage` | Карта `coverage.tests.yml` + impact-запуск |
 | `kiwi-scan-automation-project` | `scan-automation-project` | Инвентарь стека → `automation-inventory.yml` |
 | `kiwi-testing-workflow` | `testing-workflow` | Оркестратор; состояние в `.kiwi-workflow.yml` |
@@ -100,7 +99,7 @@ pipe `kiwi-tcms-pipe`.
 
 | Скилл | Откуда | Что делает |
 | --- | --- | --- |
-| `kiwi-mcp-usage` | `testomatio-mcp` | Как вызывать `kiwi_*`: порядок, имена vs id, `kiwi_rpc` |
+| `kiwi-mcp-usage` | `testomatio-mcp` | Как вызывать `kiwi_*`: имена vs id, справочники инстанса, `kiwi_rpc` |
 | `kiwi-skill-feedback-backlog` | *(дополнительный)* | Бэклог трения от использования скиллов/MCP в `./.kiwi-reports/` (не в гите), для разработчика скиллов |
 
 ## Требования

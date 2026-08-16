@@ -51,8 +51,6 @@ Append context to `.kiwi-cache/qa-strategy.md`.
 
 ## 2 — Live Kiwi metrics
 
-`kiwi_ping` → `ok`. Then:
-
 - `kiwi_list_plans` — count, active vs abandoned.
 - `kiwi_search_cases(product: …)` — volume, status mix, `automated`, priorities.
 - `kiwi_list_runs(only_active: true)` + `kiwi_run_status` on the last 5–10 runs — pass-rate, `BLOCKED`, hanging `IDLE`.

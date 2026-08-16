@@ -1,6 +1,7 @@
 # Kiwi case Markdown format
 
-Canonical local file for a Kiwi TCMS case. Sync reads and writes this shape.
+Session draft of a Kiwi TCMS case. Cache and sync read and write this shape.
+Kiwi is the source of truth; these files are not committed.
 **Case content is Russian** — summary, steps, expected results. Section
 headings (`Подготовка` / `Шаги` / `Ожидаемый результат`) are Russian too.
 Metadata bullet keys and Kiwi's own enum values (`P1`…`P5`, `CONFIRMED`, …)
@@ -94,4 +95,5 @@ Markdown string, unparsed. Read the `## Подготовка` / `## Шаги` /
   section (e.g. just Expected) still means sending the full, current body —
   all sections — as `text`, not a fragment. There is no server-side merge.
 
-Default directory: `docs/cases/**/*.md`. Keep an existing project folder if it already has cases.
+Default directory: `.kiwi-cache/cases/**/*.md` (gitignored). After upload,
+Kiwi is the copy that matters — do not commit the draft.

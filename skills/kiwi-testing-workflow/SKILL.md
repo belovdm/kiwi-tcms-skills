@@ -28,7 +28,7 @@ scan → design → refine → dedupe → coverage → sync → report → triag
 | refine | `kiwi-improve-test-cases` | weaker cases cleaned up |
 | dedupe | `kiwi-detect-duplicate-test-cases` | duplicates disabled before sync |
 | coverage | `kiwi-test-code-coverage` | `coverage.tests.yml` code ↔ tests ↔ cases |
-| sync | `kiwi-sync-test-cases` | local markdown ↔ Kiwi |
+| sync | `kiwi-sync-test-cases` | cache drafts → Kiwi (Kiwi is SoT) |
 | report | `kiwi-run-tests-with-reporter` / `kiwi-setup-e2e-reporting` | results in a run |
 | triage | `kiwi-run-triage` | failures classified |
 

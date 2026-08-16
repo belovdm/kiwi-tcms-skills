@@ -16,7 +16,6 @@ Measure system behavior under load. Link performance scenarios to Kiwi cases. Re
 - Target system accessible (staging/perf env, **never production** without explicit approval).
 - Baseline metrics or SLA/SLO defined (response time, throughput, error rate, resource usage).
 - Tool selected: k6, JMeter, Gatling, Locust, or framework-native (Playwright has basic metrics).
-- `kiwi_ping` → `ok` if linking to Kiwi cases.
 
 ## Test Types
 

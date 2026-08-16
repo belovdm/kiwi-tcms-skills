@@ -15,7 +15,7 @@ Fixes and snippets: [DEBUGGING_QUICK_REFERENCE.md](./references/DEBUGGING_QUICK_
 
 ## Facts
 
-- `kiwi_ping` → `ok`. Run or failing test is known.
+- Run or failing test is known.
 - `kiwi_run_status(run_id)` and `kiwi_list_executions(run, status: "FAILED")`.
 - Error text: `kiwi_rpc { method: "TestExecution.get_comments", params: [execution_id] }`
   (no dedicated tool for this yet).

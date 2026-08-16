@@ -3,8 +3,9 @@ name: kiwi-improve-test-cases
 description: >
   Use when cases are vague, bloated, or un-runnable, or before a sync/audit —
   "clean up these cases", "improve test cases", "score case quality".
-  Analyzes and improves existing test cases (local Markdown and Kiwi TCMS)
-  for clarity, single-idea expected results, and executability.
+  Analyzes and improves existing test cases in Kiwi TCMS (and session drafts
+  in .kiwi-cache/cases) for clarity, single-idea expected results, and
+  executability.
 ---
 
 # Improve Test Cases
@@ -15,8 +16,7 @@ Format: [kiwi-case-format.md](../kiwi-sync-test-cases/references/kiwi-case-forma
 
 ## Prerequisites
 
-- Source: local `*.md` and/or Kiwi (plan, filter, ids).
-- `kiwi_ping` → `ok` if Kiwi is in play.
+- Source: Kiwi (plan, filter, ids). Include `.kiwi-cache/cases/` drafts if present this session.
 
 ## Score /10
 
@@ -35,7 +35,7 @@ One point each:
 
 ## Workflow
 
-1. Select. Local — walk the folder. Kiwi — `kiwi_search_cases` then `kiwi_get_case(id)`.
+1. Select. Kiwi — `kiwi_search_cases` then `kiwi_get_case(id)`. Drafts — walk `.kiwi-cache/cases/` if it has files.
 2. Score each case. Table: case / score / defects.
 3. Rewrite score < 7:
    - split multi-checks into separate cases;
@@ -43,10 +43,10 @@ One point each:
    - replace "some/any" with concrete values;
    - fill setup; update stale names.
 4. Apply.
-   - Local md — edit files in the canonical format.
    - Kiwi — `kiwi_update_case` with changed fields; a body edit sends the
      full `text` (summary/priority/etc. can go alone, `text` cannot be
      patched section-by-section). Disputed edits → `kiwi_case_add_comment(id, "Proposal: …")`.
+   - Draft still in cache — edit the file in the canonical format, then upload.
 5. Report. Average score before/after, top-3 systemic defects, changed `TC-<id>` list.
 
 ## Rules

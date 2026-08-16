@@ -1,9 +1,9 @@
 ---
 name: kiwi-detect-duplicate-test-cases
 description: >
-  Finds duplicate, near-duplicate, and overlapping test cases in Kiwi TCMS,
-  in local Markdown, and across both. Use before kiwi-sync-test-cases and
-  when auditing the suite — "find duplicate cases", "these tests overlap",
+  Finds duplicate, near-duplicate, and overlapping test cases in Kiwi TCMS
+  (and session drafts in .kiwi-cache/cases). Use before kiwi-sync-test-cases
+  and when auditing the suite — "find duplicate cases", "these tests overlap",
   "dedupe the plan".
 ---
 
@@ -16,16 +16,15 @@ Format: [kiwi-case-format.md](../kiwi-sync-test-cases/references/kiwi-case-forma
 
 ## Prerequisites
 
-- Scope: a Kiwi plan/filter, a folder of md files, or both.
-- `kiwi_ping` → `ok` when Kiwi is in play.
+- Scope: a Kiwi plan/filter. Include `.kiwi-cache/cases/` drafts if present.
 
 ## Workflow
 
 ### 1. Gather
 
 - Kiwi: `kiwi_search_cases(plan/…)`. Fetch suspects with `kiwi_get_case`.
-- Local: every md with a `# TC` heading.
-- One list: `{ref, title_norm, steps_norm, expected_norm}`. `ref` is `TC-<id>` or the file path.
+- Drafts: every `.kiwi-cache/cases/*.md` with a `# TC` heading, if the folder exists.
+- One list: `{ref, title_norm, steps_norm, expected_norm}`. `ref` is `TC-<id>` or the draft path.
 
 ### 2. Compare
 
@@ -40,7 +39,7 @@ Check history with `kiwi_get_case(id, include_executions: true)`.
 
 Losers:
 
-- Local — delete the file/entry.
+- Draft — delete the cache file.
 - Kiwi — **never delete**. `kiwi_update_case(id, status: "DISABLED")` + `kiwi_case_add_comment(id, "Duplicate of TC-<id>, merged …")`.
 
 Different priorities in a pair may be different `level:*` tags — do not merge those blindly.

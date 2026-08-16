@@ -14,7 +14,7 @@ has a note, then a team summary.
 
 ## Preconditions
 
-- `kiwi_ping` → `ok`. Known `run_id` (or `kiwi_list_runs(only_active: true)`).
+- Known `run_id` (or `kiwi_list_runs(only_active: true)`).
 - CI logs / artifacts help fill comments.
 
 ## Workflow

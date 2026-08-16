@@ -21,18 +21,17 @@ flowchart LR
 
 Что делает агент:
 
-1. `kiwi_ping` — жив ли MCP, какой `KIWI_PROJECT`.
-2. `kiwi_list_plans(query: "Платежи, спринт 24")` — план #31 или
+1. `kiwi_list_plans(query: "Платежи, спринт 24")` — план #31 или
    `kiwi_create_plan`.
-3. `kiwi_search_cases(query: "QR")` — что уже есть, чтобы не дублировать.
-4. Спрашивает объём: smoke / balanced / exhaustive.
-5. Показывает чек-лист. Вы убираете 2 пункта, добавляете 1.
-6. Пишет `docs/cases/*.md` на русском, в формате
+2. `kiwi_search_cases(query: "QR")` — что уже есть, чтобы не дублировать.
+3. Спрашивает объём: smoke / balanced / exhaustive.
+4. Показывает чек-лист. Вы убираете 2 пункта, добавляете 1.
+5. Пишет черновики в `.kiwi-cache/cases/` на русском, в формате
    `## Подготовка` / `## Шаги` / `## Ожидаемый результат`.
-7. `kiwi_list_priorities` / `kiwi_list_categories` — только реальные имена
+6. `kiwi_list_priorities` / `kiwi_list_categories` — только реальные имена
    инстанса.
-8. На каждый согласованный кейс: `kiwi_search_cases` → `kiwi_create_case`.
-9. В заголовок файла дописывает `TC-412`.
+7. На каждый согласованный кейс: `kiwi_search_cases` → `kiwi_create_case`.
+8. В заголовок черновика дописывает `TC-412`. Файлы не коммитятся.
 
 **Итог:** «Создано 11 кейсов в плане #31. Дубль „повторное сканирование“ связан
 с TC-388, не клонирован. Ссылка: `https://kiwi.example/plan/31/`».
@@ -60,22 +59,23 @@ flowchart LR
 
 Дальше агент предлагает `kiwi-write-test-cases` только на gaps.
 
-## 3. Синхронизация Markdown ↔ Kiwi
+## 3. Черновики ↔ Kiwi
 
-**Фраза:** «Синхронизируй `docs/cases` с планом „Регресс 1.4“».
+**Фраза:** «Залей черновики из `.kiwi-cache/cases` в план „Регресс 1.4“».
 
-**Скилл:** `kiwi-sync-test-cases`.
+**Скилл:** `kiwi-sync-test-cases`. Kiwi — источник правды. Локальные файлы —
+сессионный черновик, не зеркало в git.
 
-1. Обход `*.md` с заголовком `# TC-…` или без id.
+1. Обход `.kiwi-cache/cases/*.md` с заголовком `# TC-…` или без id.
 2. Есть `TC-412` → `kiwi_get_case(412)`, сравнение полей, при расхождении —
    в сводку на `kiwi_update_case`.
 3. Нет id → поиск по summary; 0 хитов → создать; 1 хит → вписать `TC-<id>`;
    несколько → спросить вас.
-4. Кейсы, которых нет локально, **не удаляются**. Только отчёт.
+4. Кейсы, которых нет в cache, **не удаляются** в Kiwi. Только отчёт.
 
 **Итог:** создано 2 · обновлено 4 · связано 1 · без изменений 11.
 
-Обратный путь (Kiwi → файлы): «выгрузи план #12 в markdown».
+Обратный путь (Kiwi → cache, для ревью): «выгрузи план #12 в markdown».
 
 ## 4. Почистить «дряблую» базу
 
@@ -254,11 +254,14 @@ scan → design → refine → dedupe → coverage → sync → report → triag
 
 **Скилл:** `kiwi-mcp-usage`.
 
-Лестница: конфиг агента → логин/пароль (не печатать) → `kiwi_ping` → 404 на
-`/json-rpc/` значит кривой `KIWI_URL` → handshake.
+Лестница (когда MCP «не работает»): конфиг агента → логин/пароль (не
+печатать) → `kiwi_ping` → 404 на `/json-rpc/` значит кривой `KIWI_URL` →
+handshake. `kiwi_ping` здесь диагностика, не обязательный первый шаг любой
+сессии.
 
-По имени: приоритет, категория, статус. По id: план, кейс, ран, исполнение.
-Сначала `kiwi_ping`, потом справочники, потом мутации.
+По имени: приоритет, категория, тип плана, статус — только те, что есть на
+этом инстансе (`kiwi_list_*`). По id: план, кейс, ран, исполнение. Не
+угадывать `P1`/`Medium`/`Functional` из другого проекта.
 
 ## 15. Рецензия на требования до разработки
 
@@ -361,7 +364,7 @@ scan → design → refine → dedupe → coverage → sync → report → triag
 | Subset | Тест A — префикс B | Оставить B, если нет уникальных asserts |
 | Overlapping rule | Одна бизнес-правило через разные UI пути | Один путь на правило |
 
-**Важно:** после слияния каждый кейс (`C<id>` / `TC-<id>` / `KIWI:<id>`) остаётся покрытым. Ручные `*.md` — не этот скилл (`kiwi-detect-duplicate-test-cases`).
+**Важно:** после слияния каждый кейс (`C<id>` / `TC-<id>` / `KIWI:<id>`) остаётся покрытым. Ручные кейсы в Kiwi — не этот скилл (`kiwi-detect-duplicate-test-cases`).
 
 ## 20. Сканирование проекта автоматизации
 
@@ -375,9 +378,10 @@ scan → design → refine → dedupe → coverage → sync → report → triag
 - Фреймворки из конфигов (`playwright.config.*`, `jest.config.*`, `pytest.ini`…)
 - Тест-файлы по конвенциям, оценка количества
 - Kiwi маркеры в названиях/тегах: `C<id>`, `TC-<id>`, `KIWI:<id>`, `[C<id>]`
-- Ручные кейсы: `docs/cases/**/*.md` (synced/unsynced)
+- Требования: `docs/requirements/**/*.md`
 - Репортинг: native, `kiwi-tcms-pipe`, JUnit
 - CI: `.github/workflows`, `.gitlab-ci.yml`, `Jenkinsfile`
+- Опционально TMS: число планов и кейсов в Kiwi
 
 Пишет `automation-inventory.yml`:
 
@@ -388,11 +392,10 @@ languages: { typescript: "5.7", node: ">=20" }
 frameworks:
   - { name: playwright, config: playwright.config.ts, tests_files: 18, tests_estimate: 214 }
 kiwi_links: { with_id: 96, without_id: 118 }
-manual_cases: { files: 34, synced: 21, unsynced: 13 }
+kiwi: { plans: 4, cases: 120 }
 reporting: none
 gaps:
   - "118 tests without a Kiwi case link"
-  - "13 manual cases in docs/cases/ not yet synced to Kiwi"
 ```
 
 ## 21. Разделение по уровням пирамиды

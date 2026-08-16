@@ -21,10 +21,10 @@ Layout of produced artifacts: [project-layout.md](./references/project-layout.md
 - Frameworks from configs: `playwright.config.*`, `jest.config.*`, `.mocharc*`, `vitest`, `cypress.config.*`, `pytest.ini`, `conftest.py`, `pyproject.toml` (`[tool.pytest.ini_options]`), JUnit / TestNG.
 - Test files by convention (`*.spec.ts`, `test_*.py`, `*Test.java`): file count, estimated tests, unit / e2e / integration split.
 - Kiwi markers in titles / tags: `C<id>`, `TC-<id>`, `KIWI:<id>`, `[C<id>]`. Count linked vs unlinked.
-- Manual cases: `docs/cases/**/*.md` (the canonical location — see [project-layout.md](./references/project-layout.md)). Count files; count how many already carry a `TC-<id>` header (synced) vs none (not yet in Kiwi).
+- Requirements: `docs/requirements/**/*.md` if present (see [project-layout.md](./references/project-layout.md)).
 - Reporting: native reporter, `kiwi-tcms-pipe` in CI, JUnit artifacts. Other-TMS leftovers → `gaps`, do not delete them.
 - CI: `.github/workflows`, `.gitlab-ci.yml`, `Jenkinsfile` — jobs, schedule, artifacts.
-- Optional TMS check: `kiwi_ping` → `ok`.
+- Optional TMS: `kiwi_list_plans` (or any list) succeeds — record plan/case counts. Manual cases live in Kiwi, not in the repo.
 
 ## Write `automation-inventory.yml`
 
@@ -41,12 +41,11 @@ frameworks:
   - { name: playwright, config: playwright.config.ts, tests_files: 18, tests_estimate: 214 }
   - { name: jest, config: jest.config.js, tests_files: 42, tests_estimate: 630 }
 kiwi_links: { with_id: 96, without_id: 118 }
-manual_cases: { files: 34, synced: 21, unsynced: 13 }
+kiwi: { plans: 4, cases: 120 }   # omit if TMS was not reached
 reporting: none        # none | junit | kiwi-pipe | custom
 ci: { provider: github-actions, test_jobs: [unit, e2e] }
 gaps:
   - "118 tests without a Kiwi case link"
-  - "13 manual cases in docs/cases/ not yet synced to Kiwi"
   - "e2e results do not reach TMS"
 ```
 
